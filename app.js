@@ -5,8 +5,14 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
+require('dotenv').load();
+
+
 var routes = require('./routes/index');
+var adminRoutes = require('./routes/admin');
 var users = require('./routes/users');
+
+var basicAuth = require('basic-auth-connect');
 
 var app = express();
 
@@ -24,6 +30,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
 app.use('/users', users);
+app.use('/admin', basicAuth(process.env.ADMIN_USER, process.env.ADMIN_PASSWORD))
+app.use('/admin', adminRoutes);
 
 
 // catch 404 and forward to error handler
