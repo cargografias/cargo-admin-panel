@@ -4,15 +4,10 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var session = require('express-session');
 
 require('dotenv').load();
 
-
-var routes = require('./routes/index');
-var adminRoutes = require('./routes/admin');
-var users = require('./routes/users');
-
-var basicAuth = require('basic-auth-connect');
 
 var app = express();
 
@@ -26,13 +21,36 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
+
+var sessionOptions = {
+  secret: process.env.COOKIE_SECRET,
+  resave: false, 
+  saveUninitialized: false
+};
+
+if (app.get('env') === 'production') {
+  app.set('trust proxy', 1) // trust first proxy
+  sessionOptions.cookie.secure = true // serve secure cookies
+}
+
+app.use(session(sessionOptions));
+
+//No routing before this line
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', routes);
-app.use('/users', users);
-app.use('/admin', basicAuth(process.env.ADMIN_USER, process.env.ADMIN_PASSWORD))
-app.use('/admin', adminRoutes);
+//Check https:
+if (app.get('env') === 'production') {
+    app.use(function(req, res, next){
+        if(req.headers['x-forwarded-proto']!='https'){
+            res.redirect('https://cargografias.herokuapp.com'+req.url);
+        }
+        else{
+            next();
+        }
+    });
+}
 
+require('./routes').init(app);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
