@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+var crypto = require('crypto');
 
 router.get('/login', function(req, res){
 	if(req.session.user){
@@ -11,10 +12,11 @@ router.get('/login', function(req, res){
 
 router.post('/login', function(req, res){
 	console.log(req.body)
-	if(req.body.username =='demo' && req.body.password == 'demo'){
+	if(req.body.username =='demo@demo.com' && req.body.password == 'demo'){
 		req.session.user = {
-			username: 'demo', 
-			email: 'demo@demo.com'
+			username: 'demo@demo.com',
+			email: 'demo@demo.com', 
+			emailHash: crypto.createHash('md5').update('demo@demo.com').digest('hex')
 		}
 		res.redirect('/')
 	}else{
