@@ -84,6 +84,7 @@
                 <i class="fa fa-envelope"></i> <span>Personalize your instance</span>
               </a>
             </li>
+            <% if(user.isAdmin) { %> 
             <li ng-class="{active: '/new_instance' == currentPath}">
               <a href="#/new_instance">
                 <i class="fa fa-envelope"></i> <span>Create New Instance</span>
@@ -94,6 +95,7 @@
                 <i class="fa fa-envelope"></i> <span>Manage instances</span>
               </a>
             </li>
+            <%} %>
             <li ng-class="{active: '/contact_us' == currentPath}">
             <a href="#/contact_us"><i class="fa fa-book"></i> Contact Us</a></li>
           </ul>

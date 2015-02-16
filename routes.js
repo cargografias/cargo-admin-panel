@@ -30,6 +30,7 @@ function init(app){
 	
 	app.use('/', checkLogin, controllers.home);
 
+	app.post('/api/updateMyInstance', controllers.updateMyInstance)
 	app.post('/api/create', checkAdmin, controllers.create)
 	app.get('/api/currentbuildstatus/:instancename', checkAdmin, controllers.currentBuildStatus)
 	app.get('/api/instances', checkAdmin, controllers.instances)

@@ -4,24 +4,11 @@ var fs = require('fs');
 var mongoose = require('mongoose');
 var ssh2 = require('ssh2');
 var zlib = require('zlib');
+var db = require('../db')
 
 require('dotenv').load();
 
-if(!process.env.MONGO_DB_URL){
-	throw "Missing process.env.MONGO_DB_URL";
-}
-
-mongoose.connect(process.env.MONGO_DB_URL);
-
-var CargoInstance = mongoose.model('CargoInstances', { 
-	name: String, 
-	popitUrl: String, 
-	status: String, 
-	created: {
-		type: Date, 
-		default: Date.now
-	}
-});
+var CargoInstance = db.CargoInstance;
 
 var currentBuilds = {};
 var buildQueue = [];
@@ -31,7 +18,7 @@ function createAndUploadIntance(instanceName, popitUrl){
 
 	var deferred = Q.defer();
 
-	CargoInstance.findOne({ name : instanceName }, function(err, cargoInstance){
+	CargoInstance.findOne({ instanceName : instanceName }, function(err, cargoInstance){
 		if(err){
 			console.log('error querying for existing instances', err);		
 			deferred.reject(err);
@@ -41,7 +28,7 @@ function createAndUploadIntance(instanceName, popitUrl){
 				deferred.reject('instance already exists', instanceName);
 			}else{
 
-				var instanceData = { name: instanceName, popitUrl: popitUrl, status: 'creating' };
+				var instanceData = { instanceName: instanceName, popitUrl: popitUrl, status: 'creating' };
 				var ci = new CargoInstance(instanceData);
 				ci.save(function (err) {
 				  if (err) {

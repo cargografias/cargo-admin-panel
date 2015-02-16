@@ -1,43 +1,49 @@
 var crypto = require('crypto');
 var Q = require('q');
+var db = require('../db')
 
-var users = {
-
-	"demo@demo.com": {
-		username: 'demo@demo.com',
-		email: 'demo@demo.com', 
-		emailHash: crypto.createHash('md5').update('demo@demo.com').digest('hex')
-	}, 
-
-	"admin@cargografias.org": {
-		username: 'admin@cargografias.org',
-		email: 'admin@cargografias.org', 
-		emailHash: crypto.createHash('md5').update('admin@cargografias.org').digest('hex'), 
-		isAdmin: true
-	}
-
+function getUserObjFromCargoInstance(cargoinstance){
+	return {
+		username: cargoinstance.username,
+		email: cargoinstance.email, 
+		emailHash: cargoinstance.emailHash,
+		isAdmin: cargoinstance.isAdmin, 
+		instanceName: cargoinstance.instanceName, 
+		popitUrl: cargoinstance.popitUrl
+	};
 }
-
-var passwords = {
-	"demo@demo.com" : "demo", 
-	"admin@cargografias.org": "admin"	
-};
-
 
 module.exports.validateUser = function (username, password) {
 
 	var deferred = Q.defer();
 
-	setTimeout(function(){
-
-		if( passwords[username] && passwords[username] == password ){
-			deferred.resolve(users[username]);
-		}else{
-			deferred.reject();
-		}
+	db.CargoInstance.findOne({ username : username }, function(err, cargoInstance){
 		
-	}, 1000)
+		if(err){
+			console.log('login error querying for existing instances', err);		
+			deferred.reject("Log In error");
+		}else{
+
+			if(cargoInstance){
+
+				var sha1Pwd = crypto.createHash('sha1').update(password).digest('hex')
+				console.log('comparing passwords ', cargoInstance.password, sha1Pwd)
+				if(cargoInstance.password == sha1Pwd){
+					var user = getUserObjFromCargoInstance(cargoInstance);
+					deferred.resolve(user);
+				}else{
+					deferred.reject("Invalid username or password");
+				}
+
+			}else{
+
+				deferred.reject("Invalid username or password");
+			}
+		}
+	});
 
 	return deferred.promise;
 
 }
+
+
