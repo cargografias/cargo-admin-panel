@@ -1,31 +1,38 @@
-var loginController = require('./controllers/login')
-var normalController = require('./controllers/normal')
-var adminController = require('./controllers/admin')
-var basicAuth = require('basic-auth-connect');
+var controllers = require('./controllers')
 
 function checkLogin(req, res, next){
     
     //Check used logged in, if not redirect to login
 
     if(!req.session.user){
-        res.redirect("/login");
+        res.status(401).redirect("/login");
     }else{
         next();
     }
 
 };
 
+function checkAdmin(req, res, next){
+
+	if(req.session.user && req.session.user.isAdmin){
+		next();
+	}else{
+		res.status(401).send({ error : "unauthorized"} );
+	}
+
+}
 
 function init(app){
 
-	app.use('/', loginController);
-	app.use('/', checkLogin, normalController);
+	app.get('/login', controllers.login);
+	app.post('/login', controllers.loginPost);
+	app.get('/logout', controllers.logout);
+	
+	app.use('/', checkLogin, controllers.home);
 
-	// Admin Routes
-	var adminAuth = basicAuth(process.env.ADMIN_USER, process.env.ADMIN_PASSWORD);
-	app.use('/admin', adminController);
-
-	//TODO validate that /admin/* is also validated 
+	app.post('/api/create', checkAdmin, controllers.create)
+	app.get('/api/currentbuildstatus/:instancename', checkAdmin, controllers.currentBuildStatus)
+	app.get('/api/instances', checkAdmin, controllers.instances)
 
 }
 
