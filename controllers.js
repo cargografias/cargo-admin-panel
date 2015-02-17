@@ -1,6 +1,8 @@
 var express = require('express');
 var popitService = require('./service/popit.js')
 var usersService = require('./service/users.js')
+var db = require('./db')
+var request = require('request');
 
 module.exports = {};
 
@@ -9,6 +11,7 @@ module.exports.create = function(req, res){
   var instanceName = req.body.instanceName;
   var popitUrl = req.body.popitInstance;
   var username = req.body.username;
+  var email = req.body.email;
   var password = req.body.password;
   var passwordRepeat = req.body.passwordRepeat;
 
@@ -28,7 +31,7 @@ module.exports.create = function(req, res){
   		message: "Passwords don't match"
   	});
 
-  } else if ( password < 6 ) {
+  } else if ( password.length < 6 ) {
 
   	res.send({
   		status: 'error', 
@@ -37,7 +40,43 @@ module.exports.create = function(req, res){
 
   } else {
 
-  	//Async validations 
+
+	db.CargoInstance.findOne({ instanceName : instanceName }, function(err, cargoInstance){
+		
+		if(err){
+			console.log('create validation error querying for existing instances', err);		
+			res.send({status: 'error', message:'Error getting instances'})
+		}else{
+
+			if(cargoInstance){
+				res.send({status: 'error', message:'Instance already created'})
+			}else{
+				//
+				//Query code to popit:
+
+				var url = "http://" + popitUrl + ".popit.mysociety.org/api/v0.1";
+				console.log("querying url", url)
+				request(url, function (err, response, body) {
+				  
+				  if(err){
+				  	console.log("error validating popit instance", err)
+				  	res.send({status: "error", message: "Error validating popit instance"})
+				  }else{
+				  	if(response.statusCode == 200){
+				  		res.send({status: "ok", message: "Instance created"});
+				  	}else{
+				  		res.send({status: "error", message: "Popit instance not found"})
+				  	}
+				  }
+
+
+				})
+
+			}
+		}
+	});
+
+
   	
 
   }

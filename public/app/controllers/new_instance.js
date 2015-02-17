@@ -1,9 +1,27 @@
 angular.module('cargoNgApp')
 
- .controller('NewInstanceController', function($scope, $route, $routeParams, $location) {
+ .controller('NewInstanceController', function($scope, $route, $routeParams, $location, $http) {
 
- 	$scope.updateInstance = function(){
- 		console.log('this was clicked')
+ 	$scope.createInstance = function(){
+ 			
+		$http.post('/api/create', {
+
+			instanceName: $scope.instanceName,
+			popitInstance: $scope.popitInstance,
+			username: $scope.email,
+			email: $scope.email,
+			password: $scope.password, 
+			passwordRepeat: $scope.password2
+
+		}).then(function(res){
+
+			console.log(res);
+			
+		}).catch(function(err){
+			alert('error creating');
+		}); 		
+
+
  	}
 
  })

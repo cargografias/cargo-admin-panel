@@ -28,12 +28,15 @@ function init(app){
 	app.post('/login', controllers.loginPost);
 	app.get('/logout', controllers.logout);
 	
-	app.use('/', checkLogin, controllers.home);
+	app.use('/', checkLogin);
+	app.get('/', controllers.home);
+	
+	//app.use('/api/*', checkLogin);
 
-	app.post('/api/updateMyInstance', controllers.updateMyInstance)
 	app.post('/api/create', checkAdmin, controllers.create)
-	app.get('/api/currentbuildstatus/:instancename', checkAdmin, controllers.currentBuildStatus)
-	app.get('/api/instances', checkAdmin, controllers.instances)
+	// app.post('/api/updateMyInstance', controllers.updateMyInstance)
+	// app.get('/api/currentbuildstatus/:instancename', checkAdmin, controllers.currentBuildStatus)
+	// app.get('/api/instances', checkAdmin, controllers.instances)
 
 }
 
