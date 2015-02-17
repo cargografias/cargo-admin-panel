@@ -149,12 +149,8 @@ module.exports.currentBuildStatus = function(req, res){
 
 module.exports.instances = function(req,res){
 
-	popitService.getAllInstances()
-	.then(function(list){
-		res.send(list);
-	})
-	.catch(function(error){
-		res.send(error);
+	db.CargoInstance.find(function(err, data){
+		res.send(data);
 	})
 
 };

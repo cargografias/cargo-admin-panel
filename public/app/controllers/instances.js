@@ -1,9 +1,12 @@
 angular.module('cargoNgApp')
 
- .controller('InstancesController', function($scope, $route, $routeParams, $location) {
+ .controller('InstancesController', function($scope, $route, $routeParams, $location, $http) {
 
- 	$scope.updateInstance = function(){
- 		console.log('this was clicked')
- 	}
+ 	$scope.instances = [];
+
+ 	$http.get('/api/instances')
+ 		.then(function(response){
+ 			$scope.instances = response.data;
+ 		});
 
  })
