@@ -33,6 +33,12 @@ if (app.get('env') === 'production') {
   sessionOptions.cookie.secure = true // serve secure cookies
 }
 
+if (app.get('env') === 'development') {
+    //Here configure session to disk
+    var FileStore = require('session-file-store')(session);
+    sessionOptions.store = new FileStore({})
+}
+
 app.use(session(sessionOptions));
 
 //No routing before this line

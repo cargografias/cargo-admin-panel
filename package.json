@@ -21,6 +21,7 @@
     "q": "^1.1.2",
     "request": "^2.53.0",
     "serve-favicon": "~2.2.0",
+    "session-file-store": "0.0.3",
     "ssh2": "^0.3.6"
   }
 }

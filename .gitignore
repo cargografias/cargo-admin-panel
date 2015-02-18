@@ -12,6 +12,7 @@ node_modules
 .vagrant
 npm-debug.log
 .env
+/sessions
 
 # OS generated files #
 ######################
