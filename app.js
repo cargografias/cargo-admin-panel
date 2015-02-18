@@ -25,7 +25,8 @@ app.use(cookieParser());
 var sessionOptions = {
   secret: process.env.COOKIE_SECRET,
   resave: false, 
-  saveUninitialized: false
+  saveUninitialized: false,
+  cookie: {}
 };
 
 if (app.get('env') === 'production') {
