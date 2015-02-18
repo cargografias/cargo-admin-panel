@@ -14,7 +14,7 @@ var currentBuilds = {};
 var buildQueue = [];
 var currentProcessing = null;
 
-function createAndUploadIntance(instanceName, popitUrl){
+function updateInstance(instanceName){
 
 	var deferred = Q.defer();
 
@@ -23,28 +23,21 @@ function createAndUploadIntance(instanceName, popitUrl){
 			console.log('error querying for existing instances', err);		
 			deferred.reject(err);
 		}else{
+
 			if(cargoInstance){
-				console.log('instance already exists', instanceName)
-				deferred.reject('instance already exists', instanceName);
+					addToBuildQueue(cargoInstance);
+				  	deferred.resolve(cargoInstance);
 			}else{
 
-				var instanceData = { instanceName: instanceName, popitUrl: popitUrl, status: 'creating' };
-				var ci = new CargoInstance(instanceData);
-				ci.save(function (err) {
-				  if (err) {
-				  	console.log('error saving new instance', instanceData);
-				  	deferred.reject(err);
-				  }else{
-				  	console.log('created instance', ci._id);
-				  	addToBuildQueue(ci);
-				  	deferred.resolve(ci);
-				  }
-				});
+				var message = 'instance not found' + instanceName
+				console.log(message)
+				deferred.reject(message);
 			}
 		}
 	});
 
 	return deferred.promise;
+
 }
 
 function getInstanceProgress(instanceName){
@@ -76,13 +69,13 @@ function getQueue(){
 
 function addToBuildQueue(cargoInstance){
 	
-	if(currentBuilds[cargoInstance.name]){
+	if(currentBuilds[cargoInstance.instanceName]){
 		
 		console.log('error instance already scheduled')
 	
 	}else{
 
-		currentBuilds[cargoInstance.name] = cargoInstance;	
+		currentBuilds[cargoInstance.instanceName] = cargoInstance;	
 		buildQueue.push(cargoInstance);	
 		processNext();
 
@@ -117,7 +110,7 @@ function processNext(){
 
 function processInstance(instance){
 
-	console.log('processing instance', instance.name)
+	console.log('processing instance', instance.instanceName)
 
 	var deferred = Q.defer();
 	var persons, organizations, posts, memberships;
@@ -135,8 +128,6 @@ function processInstance(instance){
 		instance.progressLog.push('Loading Organizations...')		
 		persons = _persons;
 		return toolkit.loadAllItems('organizations');
-	}).progress(function(status){
-		console.log(status);
 	}).then(function(_organizations){
 		console.log(_organizations.length + ' organizations loaded.')
 		instance.progressLog.push(_organizations.length + ' organizations loaded.')		
@@ -154,9 +145,11 @@ function processInstance(instance){
 		instance.progressLog.push(_memberships.length + ' memberships loaded.')
 		memberships = _memberships;
 		console.log('ready to upload');
-		return uploadFilesToServer(instance.name, persons, organizations, posts, memberships);
-	}).progress(function(message){
-		instance.progressLog.push(message);
+		var upl = uploadFilesToServer(instance.instanceName, persons, organizations, posts, memberships)
+		upl.progress(function(message){
+			instance.progressLog.push(message);
+		});
+		return upl;
 	}).then(function(){
 		instance.progressLog.push('All files uploaded');
 		deferred.resolve();
@@ -273,6 +266,7 @@ function uploadFilesToServer(instanceName, persons, organizations, posts, member
 	return deferred.promise;
 };
 
+
 //Testing upload to server;
 
 /*
@@ -304,7 +298,7 @@ function uploadFilesToServer(instanceName, persons, organizations, posts, member
 
 
 module.exports = {
-	createAndUploadIntance: createAndUploadIntance, 
+	updateInstance: updateInstance, 
 	getAllInstances: getAllInstances, 
 	getInstanceProgress: getInstanceProgress
 };

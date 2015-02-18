@@ -116,29 +116,48 @@ module.exports.create = function(req, res){
 
 }
 
-module.exports.createAndUpdate = function(req, res) {
-  
-  var instanceName = req.body.name;
-  var popitUrl = req.body.popitInstance;
+module.exports.updateMyInstance = function(req, res){
 
-  popitService.createAndUploadIntance(instanceName, popitUrl)
+  var instanceName = req.session.user.instanceName;
+  var popitUrl = req.session.user.popitUrl;
+
+  popitService.updateInstance(instanceName)
   	.then(function(instance){
 		res.send({
 			status: 'ok', 
-			message: 'enqueued ' + req.body.name
+			message: 'enqueued ' + instanceName
 		});
 	}).catch(function(error){
 		res.send({
 			status: 'error', 
-			message: 'error creating instance' + req.body.name + "\n" + error
+			message: 'error creating instance' + instanceName + "\n" + error
 		});
 	});
 
 };
 
-module.exports.updateMyInstance = function(req, res){
+module.exports.myCurrentBuildStatus = function(req, res){
+	
+	var instanceName = req.session.user.instanceName;
 
-};
+	popitService.getInstanceProgress(instanceName).then(function(info){
+
+		if(info){
+			res.send({
+				status: 'ok', 
+				importStatus: info.status,
+				log: info.log
+			});			
+		}else{
+			res.send({
+				status: 'error', 
+				message: 'no data for instance'
+			});
+		}
+
+	});
+
+}
 
 module.exports.currentBuildStatus = function(req, res){
 	// /api/currentbuildstatus/:instancename

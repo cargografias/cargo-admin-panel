@@ -34,6 +34,9 @@ function init(app){
 	//app.use('/api/*', checkLogin);
 
 	app.get('/api/myinfo', controllers.myinfo)
+	app.post('/api/updatemyinstance', controllers.updateMyInstance)
+	app.get('/api/mycurrentbuildstatus', controllers.myCurrentBuildStatus)
+
 	app.post('/api/create', checkAdmin, controllers.create)
 	app.get('/api/instances', checkAdmin, controllers.instances)
 	// app.post('/api/updateMyInstance', controllers.updateMyInstance)

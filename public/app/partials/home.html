@@ -1,33 +1,52 @@
-
 <div class="row" ng-show="myinfo">
 <div class="col-xs-12">
-  <div class="box">
-    <div class="box-header">
-      <h3 class="box-title">Instance Info</h3>
-    </div><!-- /.box-header -->
-    <div class="box-body table-responsive no-padding">
-      <table class="table table-hover">
-        <tbody>
-        <tr>
-          <td>Cargografías Instance</td>
-          <td><a href="http://v3.cargografias.org/{{myinfo.instanceName}}" target="_blank">http://v3.cargografias.org/{{myinfo.instanceName}}</a></td>
-        </tr>
-        <tr>
-          <td>Popit Instance</td>
-          <td><a href="http://{{myinfo.popitUrl}}.popit.mysociety.org" target="_blank">http://{{myinfo.popitUrl}}.popit.mysociety.org</a></td>
-        </tr>
-        <tr>
-          <td>Contact email</td>
-          <td>{{myinfo.email}}</td>
-        </tr>
-      </tbody></table>
-    </div><!-- /.box-body -->
-  </div><!-- /.box -->
+
+  <div class="box box-solid">
+  <div class="box-header with-border">
+    <h3 class="box-title">Instance Info</h3>
+  </div><!-- /.box-header -->
+  <div class="box-body">
+    <dl class="dl-horizontal">
+      <dt>Cargografías Instance</dt>
+      <dd><a href="http://v3.cargografias.org/{{myinfo.instanceName}}" target="_blank">http://v3.cargografias.org/{{myinfo.instanceName}}</a></dd>
+      <dt>Popit Instance</dt>
+      <dd><a href="http://{{myinfo.popitUrl}}.popit.mysociety.org" target="_blank">http://{{myinfo.popitUrl}}.popit.mysociety.org</a></dd>
+      <dt>Contact email</dt>
+      <dd>{{myinfo.email}}</dd>
+    </dl>
+  </div><!-- /.box-body -->
+  </div>
+
 </div>
 </div>
 
-<h1>Update your instance</h1>
+<div class="row">
+<div class="col-xs-12">
 
-<p>Running the updater will bring your cargografías instance up to date with the data in your popit instance </p>
+  <div class="box box-solid">
+  <div class="box-header with-border">
+    <h3 class="box-title">Update your instance</h3>
+  </div><!-- /.box-header -->
+  <div class="box-body">
+    
+    <p>Running the updater will bring your cargografías instance up to date with the data in your popit instance </p>
 
-<input type="button" value="Update Data" ng-click="updateInstance()" />
+    <div class="form-group">
+      <input class="btn btn-primary" type="button" value="Update Data" ng-click="updateInstance()" />
+    </div>
+
+    <div class="progress">
+      <div class="progress-bar progress-bar-primary progress-bar-striped" ng-class="{active: progress < 100}" role="progressbar" aria-valuenow="{{progress}}" aria-valuemin="0" aria-valuemax="100" style="width: {{progress}}%">
+        <span class="sr-only">40% Complete (success)</span>
+      </div>
+    </div>
+
+    <ul>
+      <li ng-repeat="item in responseLines">{{item}}</li>
+    </ul>
+
+  </div><!-- /.box-body -->
+  </div>
+
+</div>
+</div>
