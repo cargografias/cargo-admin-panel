@@ -1,6 +1,11 @@
 angular.module('cargoNgApp')
 
- .controller('MainController', function($scope, $route, $routeParams, $location) {
+ .controller('MainController', function($scope, $route, $routeParams, $location, $http) {
+
+ 	$http.get('/api/myinfo').then(function(response){
+ 		$scope.myinfo = response.data[0];
+ 		console.log($scope.myinfo)
+ 	})
 
  	$scope.updateInstance = function(){
  		console.log('this was clicked')

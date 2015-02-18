@@ -3,6 +3,7 @@ var popitService = require('./service/popit.js')
 var usersService = require('./service/users.js')
 var db = require('./db')
 var request = require('request');
+var crypto = require('crypto');
 
 module.exports = {};
 
@@ -40,7 +41,7 @@ module.exports.create = function(req, res){
 
   } else {
 
-
+  	//TODO also check that usernames are unique
 	db.CargoInstance.findOne({ instanceName : instanceName }, function(err, cargoInstance){
 		
 		if(err){
@@ -63,7 +64,25 @@ module.exports.create = function(req, res){
 				  	res.send({status: "error", message: "Error validating popit instance"})
 				  }else{
 				  	if(response.statusCode == 200){
-				  		res.send({status: "ok", message: "Instance created"});
+
+				  		var ci = new CargoInstance({
+				  			instanceName: instanceName, 
+				  			username: username,
+				  			email: email, 
+				  			popitUrl: popitUrl, 
+				  			password: crypto.createHash('sha1').update( password ).digest('hex'), 
+				  			emailHash: crypto.createHash('md5').update( email ).digest('hex')
+				  		});
+
+				  		ci.save(function(err){
+				  			if(err){
+				  				console.log('Error saving new instance', err);
+				  				res.send({status: 'error', message: "Error creating instance"})
+				  			}else{
+				  				res.send({status: "ok", message: "Instance created"});
+				  			}
+				  		})
+
 				  	}else{
 				  		res.send({status: "error", message: "Popit instance not found"})
 				  	}
@@ -75,9 +94,6 @@ module.exports.create = function(req, res){
 			}
 		}
 	});
-
-
-  	
 
   }
 
@@ -190,3 +206,16 @@ module.exports.home = function(req, res){
 	});
 };
 
+module.exports.myinfo = function(req, res){
+
+	db.CargoInstance.find(
+		{
+			instanceName: req.session.user.instanceName
+		}, 
+		'instanceName popitUrl email', 
+		function(err, data){
+			res.send(data);
+		}
+	);
+
+}
