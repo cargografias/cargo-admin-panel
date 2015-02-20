@@ -4,7 +4,7 @@ function checkLogin(req, res, next){
     
     //Check used logged in, if not redirect to login
     if(!req.session.user){
-        res.redirect(401, "/login");
+        res.redirect("/login");
     }else{
         next();
     }
