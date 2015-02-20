@@ -28,6 +28,11 @@ angular.module('cargoNgApp')
     controller: 'InstancesController'
   })
 
+  .when('/password', {
+    templateUrl: '/app/partials/password.html',
+    controller: 'PasswordController'
+  })
+
   ;
 
 });

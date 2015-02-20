@@ -20,12 +20,16 @@
           <th>Url</th>
           <th>Popit Url</th>
           <th>Email</th>
+          <th ng-show="$root.bootstrapData.user.username == 'admin'"></th>
         </tr>
         <tr ng-repeat="item in instances">
           <td>{{item.instanceName}}</td>
           <td><a href="http://v3.cargografias.org/{{item.instanceName}}" target="_blank">http://v3.cargografias.org/{{item.instanceName}}</a></td>
           <td>{{item.popitUrl}}</td>
           <td>{{item.email}}</td>
+          <th ng-show="$root.bootstrapData.user.username == 'admin'">
+            <input type="button" ng-click="impersonate(item.username)" value="Log In" />
+          </td>
         </tr>
       </tbody></table>
     </div><!-- /.box-body -->

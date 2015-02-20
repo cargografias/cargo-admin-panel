@@ -52,6 +52,9 @@
             <ul class="nav navbar-nav">
               <!-- Messages: style can be found in dropdown.less-->
               <li>
+                <a href="#password">Change password</a>
+              </li>
+              <li>
                 <a href="/logout">Log out</a>
               </li>
             </ul>
@@ -167,6 +170,11 @@
     <script src="/app/controllers/personalize.js"></script>
     <script src="/app/controllers/instances.js"></script>
     <script src="/app/controllers/new_instance.js"></script>
+    <script src="/app/controllers/password.js"></script>
+
+    <script>
+      window.__bootstrapData = <%- bootstrapData %>
+    </script>
 
   </body>
 </html>

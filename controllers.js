@@ -214,6 +214,35 @@ module.exports.loginPost = function(req, res){
 
 };
 
+module.exports.impersonate = function(req, res){
+
+	usersService.getUserForImpersonation(req.body.username)
+	.then(function(user){
+		req.session.user = user;
+		res.send({status: 'ok'})
+	})
+	.catch(function(err){
+		res.send({status: 'error', message: 'error impersonating'})
+		console.log(err)
+	});
+	
+}
+
+module.exports.password = function(req, res){
+
+	var user = req.session.user;
+	var password = req.body.password;
+
+	usersService.updatePassword(user, password)
+	.then(function(){
+		res.send({status: 'ok'})
+	})
+	.catch(function(err){
+		res.send({status: 'error', message: err})
+	})
+
+}
+
 module.exports.logout = function(req, res){
 	req.session.destroy();
 	res.redirect('/login');
@@ -221,7 +250,10 @@ module.exports.logout = function(req, res){
 
 module.exports.home = function(req, res){
 	res.render('index', {
-		user: req.session.user
+		user: req.session.user, 
+		bootstrapData: JSON.stringify({
+			user: req.session.user
+		})
 	});
 };
 
