@@ -1,10 +1,14 @@
 var controllers = require('./controllers')
 
 function checkLogin(req, res, next){
-    
+
     //Check used logged in, if not redirect to login
     if(!req.session.user){
+      if(req.headers.accept && req.headers.accept.indexOf('application/json') == 0 ){
+        res.status(401).send({ error : "not logged in"} );
+      }else{
         res.redirect("/login");
+      }
     }else{
         next();
     }
