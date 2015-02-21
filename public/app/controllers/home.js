@@ -4,7 +4,6 @@ angular.module('cargoNgApp')
 
   $http.get('/api/myinfo').then(function(response){
     $scope.myinfo = response.data[0];
-    console.log($scope.myinfo)
   });
 
   $scope.progress = 0;

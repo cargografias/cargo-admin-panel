@@ -20,6 +20,7 @@ module.exports.CargoInstance = mongoose.model('CargoInstances', {
 	emailHash: String, 
 	isAdmin: Boolean,
 	password: String, 
+	customization: mongoose.Schema.Types.Mixed,
 	created: {
 		type: Date, 
 		default: Date.now

@@ -4,6 +4,7 @@ var usersService = require('./service/users.js')
 var db = require('./db')
 var request = require('request');
 var crypto = require('crypto');
+var ObjectId = require('mongoose').Types.ObjectId; 
 
 module.exports = {};
 
@@ -259,13 +260,55 @@ module.exports.home = function(req, res){
 
 module.exports.myinfo = function(req, res){
 
+	var returnedProperties = 'instanceName popitUrl email';
+
 	db.CargoInstance.find(
 		{
-			instanceName: req.session.user.instanceName
+			_id: new ObjectId(req.session.user._id)
 		}, 
-		'instanceName popitUrl email', 
+		returnedProperties, 
 		function(err, data){
 			res.send(data);
+		}
+	);
+
+}
+
+module.exports.customization = function(req, res){
+
+	var returnedProperties = 'customization';
+
+	db.CargoInstance.find(
+		{
+			_id: new ObjectId(req.session.user._id)
+		}, 
+		returnedProperties, 
+		function(err, data){
+			res.send(data[0].customization ? data[0].customization : {});
+		}
+	);
+
+}
+
+module.exports.customizationPOST = function(req, res){
+
+	var customization = req.body.customization;
+
+	console.log(customization)
+
+	db.CargoInstance.findOneAndUpdate(
+		{
+			_id: new ObjectId(req.session.user._id)
+		}, 
+		{
+			customization: customization
+		}, 
+		function(err, data){
+			if(err){
+				res.send('500', {status: 'error'})
+			}else{
+				res.send({status: 'ok'})
+			}
 		}
 	);
 

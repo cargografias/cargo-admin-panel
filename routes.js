@@ -53,6 +53,9 @@ function init(app){
   app.post('/api/impersonate', checkAdmin, canImpersonate, controllers.impersonate)
   app.post('/api/password', controllers.password)
 
+  app.get('/api/customization', controllers.customization);
+  app.post('/api/customization', controllers.customizationPOST);
+
 }
 
 module.exports = {
