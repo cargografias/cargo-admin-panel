@@ -5,6 +5,7 @@ var db = require('./db')
 var request = require('request');
 var crypto = require('crypto');
 var ObjectId = require('mongoose').Types.ObjectId; 
+var fileUploader = require('./service/fileUploader.js');
 
 module.exports = {};
 
@@ -305,9 +306,19 @@ module.exports.customizationPOST = function(req, res){
 		}, 
 		function(err, data){
 			if(err){
-				res.send('500', {status: 'error'})
+				res.send('500', {status: 'error', message: "error saving"})
 			}else{
-				res.send({status: 'ok'})
+
+				//Upload File
+				fileUploader.uploadLocData(req.session.user.instanceName, customization)
+				.then(function(){
+					res.send({status: 'ok'})	
+				})
+				.catch(function(){
+					res.send('500', {status: 'error', message: "error uploading"})
+				})
+
+				
 			}
 		}
 	);

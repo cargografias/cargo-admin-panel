@@ -6,8 +6,6 @@ var ssh2 = require('ssh2');
 var zlib = require('zlib');
 var db = require('../db')
 
-require('dotenv').load();
-
 var CargoInstance = db.CargoInstance;
 
 var currentBuilds = {};

@@ -1,3 +1,5 @@
+require('dotenv').load();  //This goes first in case any of the required libraries make use of an environment var
+
 var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
@@ -5,9 +7,6 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var session = require('express-session');
-
-require('dotenv').load();
-
 
 var app = express();
 
