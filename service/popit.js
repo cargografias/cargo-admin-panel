@@ -123,6 +123,15 @@ function processInstance(instance) {
   instance.progressLog.push('Loading Persons...')
 
   toolkit.loadAllItems('persons').then(function(_persons) {
+    
+    _persons.forEach(function(person){ 
+      person.id_sha1 = crypto.createHash('sha1').update( person.id ).digest('hex');
+    });
+
+    console.log("SHA")
+    console.log(_persons[1].id_sha1)
+    console.log(_persons[3].id_sha1)
+
     console.log(_persons.length + ' persons loaded.')
     instance.progressLog.push(_persons.length + ' persons loaded.')
     instance.progressLog.push('Loading Organizations...')
