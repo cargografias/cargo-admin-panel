@@ -5,6 +5,7 @@ var mongoose = require('mongoose');
 var ssh2 = require('ssh2');
 var zlib = require('zlib');
 var db = require('../db')
+var crypto = require('crypto');
 
 var CargoInstance = db.CargoInstance;
 
@@ -44,13 +45,11 @@ function getInstanceProgress(instanceName) {
   var deferred = Q.defer();
 
   if (currentBuilds[instanceName]) {
-    console.log('resolving')
     deferred.resolve({
       log: currentBuilds[instanceName].progressLog,
       status: currentBuilds[instanceName].status
     });
   } else {
-    console.log('empty')
     deferred.resolve();
   }
 
@@ -123,14 +122,11 @@ function processInstance(instance) {
   instance.progressLog.push('Loading Persons...')
 
   toolkit.loadAllItems('persons').then(function(_persons) {
-    
+  
+    //Add sha1 to person id    
     _persons.forEach(function(person){ 
       person.id_sha1 = crypto.createHash('sha1').update( person.id ).digest('hex');
     });
-
-    console.log("SHA")
-    console.log(_persons[1].id_sha1)
-    console.log(_persons[3].id_sha1)
 
     console.log(_persons.length + ' persons loaded.')
     instance.progressLog.push(_persons.length + ' persons loaded.')
