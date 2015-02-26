@@ -74,6 +74,7 @@ function addToBuildQueue(cargoInstance) {
 
   } else {
 
+    cargoInstance.status = "creating";
     currentBuilds[cargoInstance.instanceName] = cargoInstance;
     buildQueue.push(cargoInstance);
     processNext();
@@ -82,8 +83,6 @@ function addToBuildQueue(cargoInstance) {
 }
 
 function processNext() {
-
-  console.log('queue length', buildQueue.length)
 
   if (!currentProcessing) {
     currentProcessing = buildQueue.shift();
