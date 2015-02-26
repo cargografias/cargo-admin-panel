@@ -15,8 +15,13 @@ angular.module('cargoNgApp')
 
 		}).then(function(res){
 
-			console.log(res);
-			
+			if(res.data.status && res.data.status == 'ok'){
+				alert('New instance created')
+			}else{
+				alert('Error creating instance')
+				console.log('error', res.data)
+			}
+
 		}).catch(function(err){
 			alert('error creating');
 		}); 		

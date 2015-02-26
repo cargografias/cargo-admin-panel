@@ -67,7 +67,7 @@ module.exports.create = function(req, res){
 				  }else{
 				  	if(response.statusCode == 200){
 
-				  		var ci = new CargoInstance({
+				  		var ci = new db.CargoInstance({
 				  			instanceName: instanceName, 
 				  			username: username,
 				  			email: email, 

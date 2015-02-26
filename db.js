@@ -8,7 +8,9 @@ if(!process.env.MONGO_DB_URL){
 	throw "Missing process.env.MONGO_DB_URL";
 }
 
-mongoose.connect(process.env.MONGO_DB_URL);
+mongoose.connect(process.env.MONGO_DB_URL, {}, function(){
+	console.log('connected to mongo');
+});
 
 module.exports.CargoInstance = mongoose.model('CargoInstances', { 
 
