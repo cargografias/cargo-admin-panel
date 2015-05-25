@@ -254,7 +254,8 @@ module.exports.home = function(req, res){
 	res.render('index', {
 		user: req.session.user, 
 		bootstrapData: JSON.stringify({
-			user: req.session.user
+			user: req.session.user, 
+			cargoBaseUrl: process.env.CARGO_BASE_URL
 		})
 	});
 };

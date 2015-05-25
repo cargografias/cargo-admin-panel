@@ -49,7 +49,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 if (app.get('env') === 'production') {
     app.use(function(req, res, next){
         if(req.headers['x-forwarded-proto']!='https'){
-            res.redirect('https://cargografias.herokuapp.com'+req.url);
+            res.redirect('https://' + process.env.BASE_URL +req.url);
         }
         else{
             next();
