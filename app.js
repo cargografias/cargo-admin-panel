@@ -7,8 +7,21 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var session = require('express-session');
-
 var app = express();
+
+
+var redis = require('redis');
+var redisClient = redis.createClient(process.env.REDIS_PORT, process.env.REDIS_HOST); // replace with your config
+
+redisClient.on('connect', function(){
+  console.log('Connected to Redis: ' + process.env.REDIS_PORT + ":" + process.env.REDIS_HOST);
+});
+
+redisClient.on('error', function(err) {
+     console.log('Redis error: ' + err);
+}); 
+
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -34,11 +47,18 @@ if (app.get('env') === 'production') {
   sessionOptions.proxy = true;
 }
 
-if (app.get('env') === 'development') {
-    //Here configure session to disk
-    var FileStore = require('session-file-store')(session);
-    sessionOptions.store = new FileStore({})
-}
+// if (app.get('env') === 'development') {
+//     //Here configure session to disk
+//     var FileStore = require('session-file-store')(session);
+//     sessionOptions.store = new FileStore({})
+// } else if( app.get('env') === 'production'){
+// }
+
+  var RedisStore = require('connect-redis')(session);
+  sessionOptions.store = new RedisStore({
+    client: redisClient
+  })
+
 
 app.use(session(sessionOptions));
 
@@ -46,16 +66,16 @@ app.use(session(sessionOptions));
 app.use(express.static(path.join(__dirname, 'public')));
 
 //Check https:
-if (app.get('env') === 'production') {
-    app.use(function(req, res, next){
-        if(req.headers['x-forwarded-proto']!='https'){
-            res.redirect('https://' + process.env.BASE_URL +req.url);
-        }
-        else{
-            next();
-        }
-    });
-}
+// if (app.get('env') === 'production') {
+//     app.use(function(req, res, next){
+//         if(req.headers['x-forwarded-proto']!='https'){
+//             res.redirect('https://' + process.env.BASE_URL +req.url);
+//         }
+//         else{
+//             next();
+//         }
+//     });
+// }
 
 require('./routes').init(app);
 
