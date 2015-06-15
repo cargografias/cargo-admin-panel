@@ -309,15 +309,15 @@ module.exports.customizationPOST = function(req, res){
 			if(err){
 				res.send('500', {status: 'error', message: "error saving"})
 			}else{
-
+				res.send({status: 'ok'})
 				//Upload File
-				fileUploader.uploadLocData(req.session.user.instanceName, customization)
-				.then(function(){
-					res.send({status: 'ok'})	
-				})
-				.catch(function(){
-					res.send('500', {status: 'error', message: "error uploading"})
-				})
+				// fileUploader.uploadLocData(req.session.user.instanceName, customization)
+				// .then(function(){
+				// 	res.send({status: 'ok'})	
+				// })
+				// .catch(function(){
+				// 	res.send('500', {status: 'error', message: "error uploading"})
+				// })
 
 				
 			}
