@@ -1,5 +1,13 @@
 angular.module('cargoNgApp')
- .controller('PersonalizeController', function($scope, $routeParams, $http) {
+ .controller('PersonalizeController', function($scope, $routeParams, $http, $timeout) {
+
+    $scope.selectedTab = 'general';
+    $scope.selectTab = function(tabName){
+      $scope.selectedTab = tabName;
+      //Ace editor fix - wont render if initially hidden - must trigger a resize
+      $scope.fixAce = false;
+      $timeout(function(){ $scope.fixAce = true; },10)
+    }
 
     $scope.customization = {};
 
