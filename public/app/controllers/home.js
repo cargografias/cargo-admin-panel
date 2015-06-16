@@ -30,9 +30,9 @@ angular.module('cargoNgApp')
 
     $http.get('/api/mycurrentbuildstatus').then(function(res){
       
-      var totalLines = 16;  
+      var totalLines = 9;  
       $scope.responseLines = res.data.log;
-      $scope.progress = ($scope.responseLines.length / 16) * 100;
+      $scope.progress = ($scope.responseLines.length / 9) * 100;
 
       if(res.data.importStatus === 'creating'){
         $timeout(function(){ watchResponse(); }, 1000);
