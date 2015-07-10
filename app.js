@@ -9,20 +9,6 @@ var bodyParser = require('body-parser');
 var session = require('express-session');
 var app = express();
 
-
-var redis = require('redis');
-var redisClient = redis.createClient(process.env.REDIS_PORT, process.env.REDIS_HOST); // replace with your config
-
-redisClient.on('connect', function(){
-  console.log('Connected to Redis: ' + process.env.REDIS_PORT + ":" + process.env.REDIS_HOST);
-});
-
-redisClient.on('error', function(err) {
-     console.log('Redis error: ' + err);
-}); 
-
-
-
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
@@ -54,11 +40,28 @@ var sessionOptions = {
 // } else if( app.get('env') === 'production'){
 // }
 
+
+if(process.env.DO_NOT_USE_REDIS_FOR_SESSIONS !== 'true'){
+  console.log('using redis for sessions')
+  var redis = require('redis');
+  var redisClient = redis.createClient(process.env.REDIS_PORT, process.env.REDIS_HOST); // replace with your config
+
+  redisClient.on('connect', function(){
+    console.log('Connected to Redis: ' + process.env.REDIS_PORT + ":" + process.env.REDIS_HOST);
+  });
+
+  redisClient.on('error', function(err) {
+       console.log('Redis error: ' + err);
+  }); 
+
   var RedisStore = require('connect-redis')(session);
   sessionOptions.store = new RedisStore({
     client: redisClient
   })
 
+}else{
+  console.log('not using redis for sessions')
+}
 
 app.use(session(sessionOptions));
 
@@ -111,4 +114,89 @@ app.use(function(err, req, res, next) {
 });
 
 
-module.exports = app;
+var debug = require('debug')('vagrant:server');
+var http = require('http');
+
+/**
+ * Get port from environment and store in Express.
+ */
+
+var port = normalizePort(process.env.PORT || '4001');
+app.set('port', port);
+
+/**
+ * Create HTTP server.
+ */
+
+var server = http.createServer(app);
+
+/**
+ * Listen on provided port, on all network interfaces.
+ */
+
+server.listen(port);
+server.on('error', onError);
+server.on('listening', onListening);
+
+/**
+ * Normalize a port into a number, string, or false.
+ */
+
+function normalizePort(val) {
+  var port = parseInt(val, 10);
+
+  if (isNaN(port)) {
+    // named pipe
+    return val;
+  }
+
+  if (port >= 0) {
+    // port number
+    return port;
+  }
+
+  return false;
+}
+
+/**
+ * Event listener for HTTP server "error" event.
+ */
+
+function onError(error) {
+  if (error.syscall !== 'listen') {
+    throw error;
+  }
+
+  var bind = typeof port === 'string'
+    ? 'Pipe ' + port
+    : 'Port ' + port
+
+  // handle specific listen errors with friendly messages
+  switch (error.code) {
+    case 'EACCES':
+      console.error(bind + ' requires elevated privileges');
+      process.exit(1);
+      break;
+    case 'EADDRINUSE':
+      console.error(bind + ' is already in use');
+      process.exit(1);
+      break;
+    default:
+      throw error;
+  }
+}
+
+/**
+ * Event listener for HTTP server "listening" event.
+ */
+
+function onListening() {
+  var addr = server.address();
+  var bind = typeof addr === 'string'
+    ? 'pipe ' + addr
+    : 'port ' + addr.port;
+  debug('Listening on ' + bind);
+  console.log('Listening on ' + bind);
+  console.log('Current env ' + app.get('env'))
+}
+
