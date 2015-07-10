@@ -149,8 +149,10 @@ function processInstance(instance) {
     instance.progressLog.push(_memberships.length + ' memberships loaded.')
     memberships = _memberships;
     console.log('ready to upload');
-    var upl = uploadFilesToServer(instance.instanceName, persons, organizations, posts, memberships)
-    upl.progress(function(message) {
+    var upl = copyFilesToDestination(instance.instanceName, persons, organizations, posts, memberships)
+    upl.then(function(){ console.log('all copied'); })
+      
+      upl.progress(function(message) {
       instance.progressLog.push(message);
     });
     return upl;
@@ -161,6 +163,20 @@ function processInstance(instance) {
 
   return deferred.promise;
 
+}
+
+function copyFilesToDestination(instanceName, persons, organizations, posts, memberships){
+    return Q.promise(function(resolve, reject, notify){
+        fs.writeFileSync(process.env.BASE_DATASETS_PATH + '/' + instanceName + '-persons.json', JSON.stringify(persons));
+        notify('persons copied');
+        fs.writeFileSync(process.env.BASE_DATASETS_PATH + '/' + instanceName + '-organizations.json', JSON.stringify(organizations));
+        notify('organizations copied');
+        fs.writeFileSync(process.env.BASE_DATASETS_PATH + '/' + instanceName + '-posts.json', JSON.stringify(posts));
+        notify('posts copied');
+        fs.writeFileSync(process.env.BASE_DATASETS_PATH + '/' + instanceName + '-memberships.json', JSON.stringify(memberships));
+        notify('membeships copied');
+        resolve();   
+    });
 }
 
 function uploadFilesToServer(instanceName, persons, organizations, posts, memberships) {
