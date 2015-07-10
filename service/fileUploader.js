@@ -12,8 +12,13 @@ module.exports = {};
 module.exports.uploadLocData = function(instanceName, locData) {
 
   var deferred = Q.defer();
-  var uploadPath = process.env.SSH_BASE_UPLOAD_PATH + "/" + instanceName + "_locdata.json";
-  deferred.resolve(uploadGZippedFile(uploadPath, locData))
+  fs.writeFile(process.env.BASE_DATASETS_PATH + '/' + instanceName + '_locdata.json', JSON.stringify(locData), function(err){
+    if(err){
+      deferred.reject(err);
+    }else{
+      deferred.resolve();
+    }
+  });
   return deferred.promise;
 
 };
