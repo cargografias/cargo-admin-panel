@@ -2,3 +2,7 @@
 .ace_editor { 
   height: 200px; 
 }
+
+.custom-css-ace-container.ace_editor{
+	height: 600px;
+}

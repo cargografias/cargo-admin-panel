@@ -12,6 +12,7 @@
                   <li ng-class="{active: selectedTab == 'social'}"><a ng-click="selectTab('social')" data-toggle="tab">Social</a></li>
                   <li ng-class="{active: selectedTab == 'footer'}"><a ng-click="selectTab('footer')"data-toggle="tab">Footer</a></li>
                   <li ng-class="{active: selectedTab == 'meta'}"><a ng-click="selectTab('meta')"data-toggle="tab">Meta</a></li>
+                  <li ng-class="{active: selectedTab == 'css'}"><a ng-click="selectTab('css')"data-toggle="tab">CSS</a></li>
                 </ul>
                 </div>
 
@@ -122,6 +123,13 @@
                       <input type="text" class="form-control" ng-model="customization.metaImage">
                     </div>
                   </div> <!-- meta --> 
+
+                  <div class="box-body" ng-show="selectedTab == 'css'">
+                    <div class="form-group">
+                      <label ng-show="fixAce">Custom CSS</label>
+                      <div class="custom-css-ace-container" ui-ace="{  mode: 'css' }" ng-model="customization.customCSS"></div>
+                    </div>                    
+                 </div> <!-- css --> 
 
                 </form>
               </div><!-- /.box -->
