@@ -20,6 +20,15 @@
 	</div>
 
 	<div class="form-group">
+	  <label for="">Organization</label> 
+	  	<a ng-hide="orgSearch" ng-click="orgSearch = true">Change</a>
+	  	<a ng-show="orgSearch" ng-click="orgSearch = false">Cancel</a> 
+	  <div ng-hide="orgSearch">ID: {{membership.organization_id}}</div>
+	  <div ng-hide="orgSearch">Name: {{organization_name}} </div>
+	  <input ng-show="orgSearch" type="text" ng-model="organization" typeahead="item as item.name for item in getOrganizations($viewValue)" typeahead-on-select="selectOrganization($item, $model, $label)" class="form-control">
+	</div>
+
+	<div class="form-group">
 	  <label for="">Class</label>
 	  <input type="text" class="form-control" id="" ng-model="membership.class">
 	</div>
