@@ -42,6 +42,7 @@ angular.module('cargoNgApp')
  	function loadSearch(){
 
  		var url = "https://" + window.__bootstrapData.user.popitUrl + ".popit.mysociety.org/api/v0.1/search/organizations?"
+ 		url += "embed=";
  		url += "page=" + $scope.page;
  		url += "&q=name:" + $scope.search.name;
 
