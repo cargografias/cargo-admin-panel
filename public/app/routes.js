@@ -13,6 +13,11 @@ angular.module('cargoNgApp')
     controller: 'PersonalizeController'
   })
 
+  .when('/edit_instance', {
+    templateUrl: '/app/partials/edit_instance.html',
+    controller: 'EditInstanceController'
+  })
+
   .when('/contact_us', {
     templateUrl: '/app/partials/contact_us.html',
     controller: 'ContactUsController'
@@ -31,6 +36,21 @@ angular.module('cargoNgApp')
   .when('/password', {
     templateUrl: '/app/partials/password.html',
     controller: 'PasswordController'
+  })
+
+  .when('/persons', {
+    templateUrl: '/app/partials/persons.html',
+    controller: 'PersonsController'
+  })
+
+  .when('/posts', {
+    templateUrl: '/app/partials/posts.html',
+    controller: 'PostsController'
+  })
+
+  .when('/organizations', {
+    templateUrl: '/app/partials/organizations.html',
+    controller: 'OrganizationsController'
   })
 
   ;

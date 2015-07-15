@@ -44,7 +44,7 @@
       <!-- header logo: style can be found in header.less -->
       <header class="main-header">
         <!-- Logo -->
-        <a href="/" class="logo">Cargo Admin</a>
+        <a href="/#/" class="logo">Cargo Admin</a>
         <!-- Header Navbar: style can be found in header.less -->
         <nav class="navbar navbar-static-top" role="navigation">
           <!-- Sidebar toggle button-->
@@ -90,6 +90,21 @@
                 <i class="fa fa-envelope"></i> <span>Personalize your instance</span>
               </a>
             </li>
+            <li ng-class="{active: '/edit_instance' == currentPath}">
+              <a href="#/edit_instance">
+                <i class="fa fa-envelope"></i> <span>Edit your account info</span>
+              </a>
+            </li>
+            <li ng-class="{active: '/persons' == currentPath}">
+              <a href="#/persons">
+                <i class="fa fa-envelope"></i> <span>Persons</span>
+              </a>
+            </li>
+            <li ng-class="{active: '/organizations' == currentPath}">
+              <a href="#/organizations">
+                <i class="fa fa-envelope"></i> <span>Organizations</span>
+              </a>
+            </li>
             <% if(user.isAdmin) { %> 
             <li ng-class="{active: '/new_instance' == currentPath}">
               <a href="#/new_instance">
@@ -102,31 +117,14 @@
               </a>
             </li>
             <%} %>
-            <li ng-class="{active: '/contact_us' == currentPath}">
-            <a href="#/contact_us"><i class="fa fa-book"></i> Contact Us</a></li>
           </ul>
         </section>
         <!-- /.sidebar -->
       </aside>
 
       <!-- Right side column. Contains the navbar and content of the page -->
-      <div class="content-wrapper">
-        <!-- Content Header (Page header) -->
-        <section class="content-header">
-          <h1>
-            Dashboard
-            <small>Control panel</small>
-          </h1>
-          <ol class="breadcrumb">
-            <li><a href="/"><i class="fa fa-dashboard"></i> Home</a></li>
-            <li class="active">Dashboard</li>
-          </ol>
-        </section>
+      <div class="content-wrapper" ng-view>
 
-        <!-- Main content -->
-        <section class="content" ng-view>
-
-        </section><!-- /.content -->
       </div><!-- /.content-wrapper -->
       <footer class="main-footer">
         <div class="pull-right hidden-xs">
@@ -166,6 +164,7 @@
     <script src="/javascripts/bower/angular/angular.min.js"></script>
     <script src="/javascripts/bower/angular-route/angular-route.min.js"></script>
 
+    <script src="/javascripts/bower/angular-bootstrap/ui-bootstrap-tpls.js"></script>
     <script src="/javascripts/bower/ng-ckeditor/ng-ckeditor.js"></script>
 
     <script src="/javascripts/bower/ace-builds/src-min-noconflict/ace.js"></script>
@@ -178,9 +177,16 @@
     <script src="/app/controllers/home.js"></script>
     <script src="/app/controllers/contact_us.js"></script>
     <script src="/app/controllers/personalize.js"></script>
+    <script src="/app/controllers/edit_instance.js"></script>
     <script src="/app/controllers/instances.js"></script>
     <script src="/app/controllers/new_instance.js"></script>
     <script src="/app/controllers/password.js"></script>
+    <script src="/app/controllers/posts.js"></script>
+    <script src="/app/controllers/persons.js"></script>
+    <script src="/app/controllers/organizations.js"></script>
+    <script src="/app/controllers/personEdit.js"></script>
+    <script src="/app/controllers/organizationEdit.js"></script>
+    <script src="/app/controllers/membershipEdit.js"></script>
 
     <script>
       window.__bootstrapData = <%- bootstrapData %>

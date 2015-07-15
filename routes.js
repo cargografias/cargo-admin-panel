@@ -55,6 +55,11 @@ function init(app){
 
   app.get('/api/customization', controllers.customization);
   app.post('/api/customization', controllers.customizationPOST);
+  app.get('/api/persons', controllers.getPersons)
+
+  app.put('/proxy/:collection/:id', controllers.proxyPUT)
+
+  app.put('/api/instance', controllers.instancePUT)
 
 }
 

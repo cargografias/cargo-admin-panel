@@ -16,6 +16,7 @@ module.exports.CargoInstance = mongoose.model('CargoInstances', {
 
 	instanceName: String, 
 	popitUrl: String, 
+	popitApiKey: String, 
 	status: String, 
 	username: String, 
 	email: String, 

@@ -13,6 +13,7 @@ node_modules
 npm-debug.log
 .env
 /sessions
+public/javascripts/bower
 
 # OS generated files #
 ######################
