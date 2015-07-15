@@ -82,38 +82,48 @@
           <ul class="sidebar-menu">
             <li ng-class="{active: '/' == currentPath}">
               <a href="#/">
-                <i class="fa fa-calendar"></i> <span>Update data</span>
+                <i class="fa fa-dashboard"></i> <span>Update data</span>
               </a>
             </li>
             <li ng-class="{active: '/personalize' == currentPath}">
               <a href="#/personalize">
-                <i class="fa fa-envelope"></i> <span>Personalize your instance</span>
+                <i class="fa fa-edit"></i> <span>Personalize your instance</span>
               </a>
             </li>
             <li ng-class="{active: '/edit_instance' == currentPath}">
               <a href="#/edit_instance">
-                <i class="fa fa-envelope"></i> <span>Edit your account info</span>
+                <i class="fa fa-edit"></i> <span>Edit your account info</span>
               </a>
             </li>
-            <li ng-class="{active: '/persons' == currentPath}">
-              <a href="#/persons">
-                <i class="fa fa-envelope"></i> <span>Persons</span>
+
+            <li class="treeview">
+              <a href="#">
+                <i class="fa fa-edit"></i> <span>POPIT Editor</span>
+                <i class="fa fa-angle-left pull-right"></i>
               </a>
+              <ul class="treeview-menu">
+                <li ng-class="{active: '/persons' == currentPath}">
+                  <a href="#/persons">
+                    <i class="fa fa-circle-o"></i> <span>Persons</span>
+                  </a>
+                </li>
+                <li ng-class="{active: '/organizations' == currentPath}">
+                  <a href="#/organizations">
+                    <i class="fa fa-circle-o"></i> <span>Organizations</span>
+                  </a>
+                </li>
+              </ul>
             </li>
-            <li ng-class="{active: '/organizations' == currentPath}">
-              <a href="#/organizations">
-                <i class="fa fa-envelope"></i> <span>Organizations</span>
-              </a>
-            </li>
+
             <% if(user.isAdmin) { %> 
             <li ng-class="{active: '/new_instance' == currentPath}">
               <a href="#/new_instance">
-                <i class="fa fa-envelope"></i> <span>Create New Instance</span>
+                <i class="fa fa-edit"></i> <span>Create New Instance</span>
               </a>
             </li>
             <li ng-class="{active: '/instances' == currentPath}">
               <a href="#/instances">
-                <i class="fa fa-envelope"></i> <span>Manage instances</span>
+                <i class="fa fa-edit"></i> <span>Manage instances</span>
               </a>
             </li>
             <%} %>
