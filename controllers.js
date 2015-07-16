@@ -6,6 +6,7 @@ var request = require('request');
 var crypto = require('crypto');
 var ObjectId = require('mongoose').Types.ObjectId;
 var fileUploader = require('./service/fileUploader.js');
+var popitCloudinaryService = require("./service/popitCloudinary.js");
 
 module.exports = {};
 
@@ -421,6 +422,20 @@ module.exports.proxyPUT = function(req, res) {
     } else {
       console.log(body);
       res.send('ok')
+
+      if("persons" === collection){
+        var popitInfo = {
+            instanceName: req.session.user.popitUrl, 
+            apikey: req.session.user.popitApiKey
+        };
+        var cloudinaryInfo = {
+            apikey: process.env.CLOUDINARY_API_KEY, 
+            secret: process.env.CLOUDINARY_SECRET, 
+            uploadurl: process.env.CLOUDINARY_UPLOAD_URL
+        };
+        popitCloudinaryService.updateCloudinaryImage(id, popitInfo, cloudinaryInfo);
+      }
+
     }
   })
 
