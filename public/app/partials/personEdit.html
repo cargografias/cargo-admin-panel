@@ -4,40 +4,80 @@
 
 <div class="modal-body">
 
-	<div class="form-group">
-	  <label for="name">Name (given + family)</label>
-	  <input type="text" class="form-control" id="name" ng-model="person.name" disabled="disabled">
-	</div>
+    <div class="form-group">
+        <label for="name">Nombre Completo [Name]</label>
+        <input type="text" class="form-control" id="name" ng-model="person.name" disabled="disabled">
+    </div>
 
-	<div class="form-group">
-	  <label for="">Given Name</label>
-	  <input type="text" class="form-control" id="" ng-model="person.given_name" ng-change="calcName()">
-	</div>
+    <div class="form-group">
+        <label for="">Nombres [Given Name]</label>
+        <input type="text" class="form-control" id="" ng-model="person.given_name" ng-change="calcName()">
+    </div>
 
-	<div class="form-group">
-	  <label for="">Family Name</label>
-	  <input type="text" class="form-control" id="" ng-model="person.family_name" ng-change="calcName()">
-	</div>
+    <div class="form-group">
+        <label for="">Apellidos [Family Name]</label>
+        <input type="text" class="form-control" id="" ng-model="person.family_name" ng-change="calcName()">
+    </div>
 
-	<div class="form-group">
-	  <label for="">Gender</label>
-	  <input type="text" class="form-control" id="" ng-model="person.gender">
-	</div>
+    <div class="form-group">
+        <label for="">Sexo [Gender]</label>
+        <select ng-model="person.gender" class="form-control">
+            <option value="">-- not set --</option>
+            <option value="other">Otro [other]</option>
+            <option value="male">Masculino [male]</option>
+            <option value="female">Femenino [female]</option>
+        </select>
+    </div>
 
-	<div class="form-group">
-	  <label for="">Image</label>
-	  <input type="text" class="form-control" id="" ng-model="person.image">
-	</div>
+    <div class="form-group">
+        <label for="">Foto [Image]</label>
+        <input type="text" class="form-control" id="" ng-model="person.image">
+    </div>
 
-	<div class="form-group">
-	  <label for="">Id Type (scheme)</label>
-	  <input type="text" class="form-control" id="" ng-model="person.idtype">
-	</div>
+    <div class="form-group">
+        <label for="">Tipo de documento [Id Type (scheme)]</label>
+        <input type="text" class="form-control" id="" ng-model="idtype">
+    </div>
 
-	<div class="form-group">
-	  <label for="">Id Number</label>
-	  <input type="text" class="form-control" id="" ng-model="person.idnumber">
-	</div>
+    <div class="form-group">
+        <label for="">Numero de documento [Id Number]</label>
+        <input type="text" class="form-control" id="" ng-model="idnumber">
+    </div>
+
+    <div class="form-group">
+        <label for="">Fecha Nacimiento [birth_date]</label>
+        <input type="text" class="form-control" ng-model="person.birth_date">
+    </div>
+
+    <div class="form-group">
+        <label for="">Fecha Nacimiento [birth_date] (dd/MM/yyyy)</label>
+        <div>Selected {{birthDT | date:'dd/MM/yyyy'}}</div>
+        <div>VALUE {{person.birth_date}}</div>
+        <p class="input-group">
+            <input type="text" ng-change="birthUpdated()" class="form-control" datepicker-popup="dd/MM/yyyy" ng-model="birthDT" is-open="openedB" datepicker-options="dateOptions" close-text="Close" />
+            <span class="input-group-btn">
+
+            <button type="button" class="btn btn-default" ng-click="openB($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+
+          </span>
+        </p>
+    </div>
+
+
+    <div class="form-group">
+        <label for="">Fecha Deceso [death_date] (dd/MM/yyyy)</label>
+        <div>Selected {{deathDT | date:'dd/MM/yyyy'}}</div>
+        <div>VALUE {{person.death_date}}</div>
+        <p class="input-group">
+            <input type="text" ng-change="deathUpdated()" class="form-control" datepicker-popup="dd/MM/yyyy" ng-model="deathDT" is-open="openedD" datepicker-options="dateOptions" close-text="Close" />
+            <span class="input-group-btn">
+
+            <button type="button" class="btn btn-default" ng-click="openD($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+
+          </span>
+        </p>
+    </div>
+
 
 </div>
 

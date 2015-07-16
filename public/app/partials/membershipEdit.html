@@ -4,94 +4,94 @@
 
 <div class="modal-body">
 
-	<div class="form-group">
-	  <label for="">Label</label>
-	  <input type="text" class="form-control" id="" ng-model="membership.label">
-	</div>
+    <div class="form-group">
+        <label for="">Label</label>
+        <input type="text" class="form-control" id="" ng-model="membership.label">
+    </div>
 
-	<div class="form-group">
-	  <label for="">Role</label>
-	  <input type="text" class="form-control" id="" ng-model="membership.role">
-	</div>
+    <div class="form-group">
+        <label for="">Role</label>
+        <input type="text" class="form-control" id="" ng-model="membership.role">
+    </div>
 
-	<div class="form-group">
-	  <label for="">Type</label>
-	  <input type="text" class="form-control" id="" ng-model="membership.type">
-	</div>
+    <div class="form-group">
+        <label for="">Type</label>
+        <input type="text" class="form-control" id="" ng-model="membership.type">
+    </div>
 
-	<div class="form-group">
-	  <label for="">Organization</label> 
-	  	<a ng-hide="orgSearch" ng-click="orgSearch = true">Change</a>
-	  	<a ng-show="orgSearch" ng-click="orgSearch = false">Cancel</a> 
-	  <div ng-hide="orgSearch">ID: {{membership.organization_id}}</div>
-	  <div ng-hide="orgSearch">Name: {{organization_name}} </div>
-	  <input ng-show="orgSearch" type="text" ng-model="organization" typeahead="item as item.name for item in getOrganizations($viewValue)" typeahead-on-select="selectOrganization($item, $model, $label)" class="form-control">
-	</div>
+    <div class="form-group">
+        <label for="">Organization</label>
+        <a ng-hide="orgSearch" ng-click="orgSearch = true">Change</a>
+        <a ng-show="orgSearch" ng-click="orgSearch = false">Cancel</a>
+        <div ng-hide="orgSearch">ID: {{membership.organization_id}}</div>
+        <div ng-hide="orgSearch">Name: {{organization_name}} </div>
+        <input ng-show="orgSearch" type="text" ng-model="organization" typeahead="item as item.name for item in getOrganizations($viewValue)" typeahead-on-select="selectOrganization($item, $model, $label)" class="form-control">
+    </div>
 
-	<div class="form-group">
-	  <label for="">Class</label>
-	  <input type="text" class="form-control" id="" ng-model="membership.class">
-	</div>
+    <div class="form-group">
+        <label for="">Class</label>
+        <input type="text" class="form-control" id="" ng-model="membership.class">
+    </div>
 
-	<div class="form-group">
-	  <label for="">Intended Duration</label>
-	  <input type="text" class="form-control" id="" ng-model="membership.intended_duration">
-	</div>
+    <div class="form-group">
+        <label for="">Intended Duration</label>
+        <input type="text" class="form-control" id="" ng-model="membership.intended_duration">
+    </div>
 
-	<div class="form-group">
-	  <label for="">Start Date</label>
-	  <input type="text" class="form-control" id="" ng-model="membership.start_date">
-	</div>
+    <div class="form-group">
+        <label for="">Start Date</label>
+        <input type="text" class="form-control" id="" ng-model="membership.start_date">
+    </div>
 
-	<div class="form-group">
-	  <label for="">End Date</label>
-	  <input type="text" class="form-control" id="" ng-model="membership.end_date">
-	</div>
+    <div class="form-group">
+        <label for="">End Date</label>
+        <input type="text" class="form-control" id="" ng-model="membership.end_date">
+    </div>
 
-	<div class="form-group">
-	  <label for="">Naming Date</label>
-	  <input type="text" class="form-control" id="" ng-model="membership.naming_date">
-	</div>
+    <div class="form-group">
+        <label for="">Naming Date</label>
+        <input type="text" class="form-control" id="" ng-model="membership.naming_date">
+    </div>
 
-	<div class="form-group">
-	  <label for="">Area ID</label>
-	  <input type="text" class="form-control" id="" ng-model="membership.area_id">
-	</div>
+    <div class="form-group">
+        <label for="">Area ID</label>
+        <input type="text" class="form-control" id="" ng-model="membership.area_id">
+    </div>
 
-	<div class="form-group">
-	  <label for="">Party</label>
-	  <input type="text" class="form-control" id="" ng-model="membership.party">
-	</div>
+    <div class="form-group">
+        <label for="">Party</label>
+        <input type="text" class="form-control" id="" ng-model="membership.party">
+    </div>
 
-	<div class="form-group">
-	  <label for="">Party ID</label>
-	  <input type="text" class="form-control" id="" ng-model="membership.party_id">
-	</div>
+    <div class="form-group">
+        <label for="">Party ID</label>
+        <input type="text" class="form-control" id="" ng-model="membership.party_id">
+    </div>
 
-	<div class="form-group">
-	  <label for="">Heritage</label>
-	  <input type="text" class="form-control" id="" ng-model="membership.heritage">
-	</div>
+    <div class="form-group">
+        <label for="">Heritage</label>
+        <input type="text" class="form-control" id="" ng-model="membership.heritage">
+    </div>
 
-	<div class="form-group">
-	  <label for="">Heritage URL</label>
-	  <input type="text" class="form-control" id="" ng-model="membership.heritage_url">
-	</div>
+    <div class="form-group">
+        <label for="">Heritage URL</label>
+        <input type="text" class="form-control" id="" ng-model="membership.heritage_url">
+    </div>
 
-	<div class="form-group">
-	  <label for="">Notes</label>
-	  <input type="text" class="form-control" id="" ng-model="membership.notes">
-	</div>
+    <div class="form-group">
+        <label for="">Notes</label>
+        <input type="text" class="form-control" id="" ng-model="membership.notes">
+    </div>
 
-	<div class="form-group">
-	  <label for="">Added By</label>
-	  <input type="text" class="form-control" id="" ng-model="membership.added_by">
-	</div>
+    <div class="form-group">
+        <label for="">Added By</label>
+        <input type="text" class="form-control" id="" ng-model="membership.added_by">
+    </div>
 
-	<div class="form-group">
-	  <label for="">Sources</label>
-	  <div>TODO</div>
-	</div>
+    <div class="form-group">
+        <label for="">Sources</label>
+        <div>TODO</div>
+    </div>
 
 </div>
 
