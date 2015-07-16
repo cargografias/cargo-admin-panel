@@ -10,6 +10,15 @@ angular.module('cargoNgApp')
         startingDay: 1
     };
 
+ 	$scope.addContact = function(){
+ 		$scope.person.contact_details = $scope.person.contact_details || []; 
+ 		$scope.person.contact_details.push({});
+ 	};
+
+ 	$scope.removeContact = function(ix){
+ 		$scope.person.contact_details.splice(ix, 1);
+ 	}
+
     $scope.birthUpdated = function() {
         try {
             $scope.person.birth_date = $filter('date')($scope.birthDT, 'yyyy-MM-dd')

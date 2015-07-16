@@ -74,6 +74,48 @@
         <textarea class="form-control" rows="3" ng-model="other_names"></textarea>
     </div>
 
+    <div class="form-group">
+        <label for="">Biografía [biography]</label>
+        <textarea class="form-control" rows="3" ng-model="person.biography"></textarea>
+    </div>
+
+    <div class="form-group">
+        <label for="">Mail [email]</label>
+        <input type="text" class="form-control" ng-model="person.email">
+    </div>
+
+
+    <h4>Contacto</h4>
+    <div class="form-horizontal" ng-repeat="contact in person.contact_details">
+        <div class="form-group">
+            <label class="col-sm-2 control-label">Type</label>
+            <div class="col-sm-10">
+                <input class="form-control" ng-model="contact.type">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">Label</label>
+            <div class="col-sm-10">
+                <input class="form-control" ng-model="contact.label">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">Value</label>
+            <div class="col-sm-10">
+                <input class="form-control" ng-model="contact.value">
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-10">
+                <a ng-click="removeContact($index)">Eliminar</a>
+            </div>
+        </div>
+    </div>
+    <div>
+        <a ng-click="addContact()">Agregar contacto</a>
+    </div>
+
+
 </div>
 
 <div class="modal-footer">
