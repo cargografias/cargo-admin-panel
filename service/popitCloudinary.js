@@ -107,6 +107,15 @@ function updatePerson(person, popitInfo) {
   return Q.promise(function(resolve, reject, notify) {
 
     var url = "https://" + popitInfo.instanceName + ".popit.mysociety.org/api/v0.1/persons/" + person.id;
+    var dateRE = /^[0-9]{4}(-[0-9]{2}){0,2}$/;
+
+    if( typeof person.birth_date !== 'undefined' && !dateRE.test(person.birth_date)){
+    	delete person.birth_date
+    }
+
+    if( typeof person.death_date !== 'undefined' && !dateRE.test(person.death_date)){
+    	delete person.death_date
+    }
 
     var options = {
       url: url,
@@ -165,7 +174,9 @@ function updateCloudinaryImage(personId, popitInfo, cloudinaryInfo){
 	getPersonFromPopit(personId, popitInfo).then(function(person){
 		if (person.image && !cloudRE.test(person.image)) {
 			createCloudinaryImageForPerson(person, popitInfo, cloudinaryInfo).then(function(result){
-				//
+				console.log("IMAGE UPLOADED");
+				console.log(result);
+				//updatePerson(person, popitInfo)
 			}).catch(function(err){
 				console.log('error updating picture')
 			})			
