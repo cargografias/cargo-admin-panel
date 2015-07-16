@@ -3,6 +3,7 @@
 var Q = require('q');
 var request = require('request');
 var crypto = require('crypto');
+var fs = require('fs');
 
 function cloudPost(public_id, photoUrl, cloudinaryInfo) {
 
@@ -66,14 +67,41 @@ function cloudPost(public_id, photoUrl, cloudinaryInfo) {
 
 }
 
+function cloudConvertAndDownloadToServer(instanceName, personId, photoUrl){
+	return Q.Promise(function(resolve, reject, notify) {
+		try{
+			var cloudinaryBase = 'http://res.cloudinary.com/cargografias/image/fetch/h_200,w_200,c_thumb,g_face,f_jpg/'
+			var imgToDownload = cloudinaryBase + photoUrl;
+			var dstPath = process.env.IMAGES_STATIC_PATH + '/' + instanceName;
+			var dstName = personId + ".jpg";
+
+			if(!fs.existsSync(dstPath)){
+				fs.mkdirSync(dstPath)
+			}
+			request.get(imgToDownload)
+			.on('error',  function (err) {
+				console.log("Error getting file", imgToDownload);
+				reject(err);
+			})
+			.pipe(fs.createWriteStream(dstPath + '/' + dstName))
+			resolve({
+				url: process.env.IMAGES_STATIC_BASE_URL + "/" + instanceName + '/' + dstName
+			});			
+		}catch(ex){
+			console.log(ex);
+			reject(ex);
+		}
+	})
+}
+
 function createCloudinaryImageForPerson(person, popitInfo, cloudinaryInfo) {
   return Q.Promise(function(resolve, reject, notify) {
-    var public_id = popitInfo.instanceName + "/" + person.id;
-    cloudPost(public_id, person.image, cloudinaryInfo)
+  
+	cloudConvertAndDownloadToServer(popitInfo.instanceName, person.id, person.image)
       .then(function(result) {
 
         person.image_original = person.image;
-        person.image = result.secure_url;
+        person.image = result.url;
         delete person.images;
 
         updatePerson(person, popitInfo)
@@ -169,18 +197,17 @@ function updateCloudinaryImage(personId, popitInfo, cloudinaryInfo){
 	// popitInfo: { instanceName : '' , apikey : '' }
 	// cloudinaryInfo: { apikey : '' , uploadurl : '' , secret }
 	
-	var cloudRE = /^(?:http\:|https\:|)\/\/res\.cloudinary\.com/
+	var localImage = new RegExp( "^" + process.env.IMAGES_STATIC_BASE_URL)
 
 	getPersonFromPopit(personId, popitInfo).then(function(person){
-		if (person.image && !cloudRE.test(person.image)) {
+		if (person.image && !localImage.test(person.image)) {
 			createCloudinaryImageForPerson(person, popitInfo, cloudinaryInfo).then(function(result){
-				console.log("IMAGE UPLOADED");
-				console.log(result);
-				//updatePerson(person, popitInfo)
+				// Done
 			}).catch(function(err){
-				console.log('error updating picture')
+				console.log('error updating picture', err)
 			})			
-		}	})
+		}	
+	})
 	.catch(function(err){
 		console.log("ERROR", err)
 	})
