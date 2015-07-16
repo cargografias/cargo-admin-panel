@@ -414,7 +414,6 @@ module.exports.proxyPUT = function(req, res) {
 
   console.log('object to put', options)
 
-  request.debug = true
   request(options, function(err, httpResponse, body) {
     if (err) {
       console.log(err)
