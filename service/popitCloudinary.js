@@ -94,7 +94,7 @@ function cloudConvertAndDownloadToServer(instanceName, personId, photoUrl){
 	})
 }
 
-function createCloudinaryImageForPerson(person, popitInfo, cloudinaryInfo) {
+function createCloudinaryImageForPerson(person, popitInfo) {
   return Q.Promise(function(resolve, reject, notify) {
   
 	cloudConvertAndDownloadToServer(popitInfo.instanceName, person.id, person.image)
@@ -193,15 +193,14 @@ function getPersonFromPopit(personId, popitInfo){
 }
 
 
-function updateCloudinaryImage(personId, popitInfo, cloudinaryInfo){
+function updateCloudinaryImage(personId, popitInfo){
 	// popitInfo: { instanceName : '' , apikey : '' }
-	// cloudinaryInfo: { apikey : '' , uploadurl : '' , secret }
 	
 	var localImage = new RegExp( "^" + process.env.IMAGES_STATIC_BASE_URL)
 
 	getPersonFromPopit(personId, popitInfo).then(function(person){
 		if (person.image && !localImage.test(person.image)) {
-			createCloudinaryImageForPerson(person, popitInfo, cloudinaryInfo).then(function(result){
+			createCloudinaryImageForPerson(person, popitInfo).then(function(result){
 				// Done
 			}).catch(function(err){
 				console.log('error updating picture', err)

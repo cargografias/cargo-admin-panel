@@ -427,12 +427,7 @@ module.exports.proxyPUT = function(req, res) {
             instanceName: req.session.user.popitUrl, 
             apikey: req.session.user.popitApiKey
         };
-        var cloudinaryInfo = {
-            apikey: process.env.CLOUDINARY_API_KEY, 
-            secret: process.env.CLOUDINARY_SECRET, 
-            uploadurl: process.env.CLOUDINARY_UPLOAD_URL
-        };
-        popitCloudinaryService.updateCloudinaryImage(id, popitInfo, cloudinaryInfo);
+        popitCloudinaryService.updateCloudinaryImage(id, popitInfo);
       }
 
     }
