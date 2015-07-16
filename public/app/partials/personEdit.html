@@ -45,39 +45,24 @@
     </div>
 
     <div class="form-group">
-        <label for="">Fecha Nacimiento [birth_date]</label>
-        <input type="text" class="form-control" ng-model="person.birth_date">
-    </div>
-
-    <div class="form-group">
         <label for="">Fecha Nacimiento [birth_date] (dd/MM/yyyy)</label>
-        <div>Selected {{birthDT | date:'dd/MM/yyyy'}}</div>
-        <div>VALUE {{person.birth_date}}</div>
         <p class="input-group">
             <input type="text" ng-change="birthUpdated()" class="form-control" datepicker-popup="dd/MM/yyyy" ng-model="birthDT" is-open="openedB" datepicker-options="dateOptions" close-text="Close" />
             <span class="input-group-btn">
-
             <button type="button" class="btn btn-default" ng-click="openB($event)"><i class="glyphicon glyphicon-calendar"></i></button>
-
           </span>
         </p>
     </div>
-
 
     <div class="form-group">
         <label for="">Fecha Deceso [death_date] (dd/MM/yyyy)</label>
-        <div>Selected {{deathDT | date:'dd/MM/yyyy'}}</div>
-        <div>VALUE {{person.death_date}}</div>
         <p class="input-group">
             <input type="text" ng-change="deathUpdated()" class="form-control" datepicker-popup="dd/MM/yyyy" ng-model="deathDT" is-open="openedD" datepicker-options="dateOptions" close-text="Close" />
             <span class="input-group-btn">
-
             <button type="button" class="btn btn-default" ng-click="openD($event)"><i class="glyphicon glyphicon-calendar"></i></button>
-
           </span>
         </p>
     </div>
-
 
 </div>
 
