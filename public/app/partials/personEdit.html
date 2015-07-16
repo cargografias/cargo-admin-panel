@@ -55,6 +55,11 @@
     </div>
 
     <div class="form-group">
+        <label for="">Lugar de Nacimiento [birth_place]</label>
+        <input type="text" class="form-control" ng-model="person.birth_place">
+    </div>
+
+    <div class="form-group">
         <label for="">Fecha Deceso [death_date] (dd/MM/yyyy)</label>
         <p class="input-group">
             <input type="text" ng-change="deathUpdated()" class="form-control" datepicker-popup="dd/MM/yyyy" ng-model="deathDT" is-open="openedD" datepicker-options="dateOptions" close-text="Close" />
@@ -62,6 +67,11 @@
             <button type="button" class="btn btn-default" ng-click="openD($event)"><i class="glyphicon glyphicon-calendar"></i></button>
           </span>
         </p>
+    </div>
+
+    <div class="form-group">
+        <label for="">Otros Nombres [other_names] (un nombre por renglón)</label>
+        <textarea class="form-control" rows="3" ng-model="other_names"></textarea>
     </div>
 
 </div>

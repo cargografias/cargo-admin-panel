@@ -55,6 +55,10 @@ angular.module('cargoNgApp')
             }]
         }
 
+        if ($scope.other_names){
+        	personToSave.other_names = $scope.other_names.split('\n').map(function(item){ return { name: item } })
+        }
+
         var url = "/proxy/persons/" + item.id;
 
         $http({
@@ -97,6 +101,10 @@ angular.module('cargoNgApp')
 		    	}catch(ex){
 		    		console.log("not valid death date")	
 		    	}
+		    }
+
+		    if($scope.person.other_names && $scope.person.other_names.length){
+		    	$scope.other_names = $scope.person.other_names.map(function(item){return item.name;}).join('\n');
 		    }
 
 	 	})
