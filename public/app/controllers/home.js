@@ -25,6 +25,15 @@ angular.module('cargoNgApp')
     ;     
   }
 
+  $scope.updatePictures = function(){
+    $http.post('/api/updatepictures')
+    .then(function(response){
+      alert('Update Pictures Started');
+    })
+    .catch(function(){
+      alert('Error updating pictures');
+    })
+  };
 
   function watchResponse(){
 

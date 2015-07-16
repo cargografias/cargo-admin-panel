@@ -391,10 +391,14 @@ module.exports.customizationPOST = function(req, res) {
 
 }
 
-module.exports.getPersons = function(req, res) {
+module.exports.updatePictures = function(req, res) {
+  var popitInfo = {
+      instanceName: req.session.user.popitUrl, 
+      apikey: req.session.user.popitApiKey
+  };
 
-  request('') //REquest to popti
-
+  popitCloudinaryService.updateAllPictures(popitInfo);
+  res.send({message: 'ok'})
 }
 
 module.exports.proxyPUT = function(req, res) {

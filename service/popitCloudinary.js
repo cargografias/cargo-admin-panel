@@ -4,6 +4,7 @@ var Q = require('q');
 var request = require('request');
 var crypto = require('crypto');
 var fs = require('fs');
+var PopitToolkit = require('popit-toolkit');
 
 function cloudPost(public_id, photoUrl, cloudinaryInfo) {
 
@@ -84,6 +85,7 @@ function cloudConvertAndDownloadToServer(instanceName, personId, photoUrl){
 				reject(err);
 			})
 			.pipe(fs.createWriteStream(dstPath + '/' + dstName))
+      console.log('image created', process.env.IMAGES_STATIC_BASE_URL + "/" + instanceName + '/' + dstName)
 			resolve({
 				url: process.env.IMAGES_STATIC_BASE_URL + "/" + instanceName + '/' + dstName
 			});			
@@ -103,7 +105,7 @@ function createCloudinaryImageForPerson(person, popitInfo) {
         person.image_original = person.image;
         person.image = result.url;
         delete person.images;
-
+        console.log('updating image for person', person.name, result.url);
         updatePerson(person, popitInfo)
           .then(function(result) {
             resolve(result)
@@ -192,20 +194,31 @@ function getPersonFromPopit(personId, popitInfo){
 	});
 }
 
+function updatePersonImage(person, popitInfo){
+  var localImage = new RegExp( "^" + process.env.IMAGES_STATIC_BASE_URL)
+  return Q.promise(function(resolve, reject, notify) {
+    if (person.image && !localImage.test(person.image)) {
+      console.log('updating', person.name)
+      createCloudinaryImageForPerson(person, popitInfo).then(function(result){
+        resolve();
+      }).catch(function(err){
+        reject(err);
+      })      
+    } 
+  });
+}
 
 function updateCloudinaryImage(personId, popitInfo){
 	// popitInfo: { instanceName : '' , apikey : '' }
-	
-	var localImage = new RegExp( "^" + process.env.IMAGES_STATIC_BASE_URL)
 
-	getPersonFromPopit(personId, popitInfo).then(function(person){
-		if (person.image && !localImage.test(person.image)) {
-			createCloudinaryImageForPerson(person, popitInfo).then(function(result){
-				// Done
-			}).catch(function(err){
-				console.log('error updating picture', err)
-			})			
-		}	
+	getPersonFromPopit(personId, popitInfo).then(function(person){	
+    updatePersonImage(person, popitInfo)
+    .then(function(){
+
+    })
+    .catch(function(err){
+      console.log('error updating picture', err)
+    })
 	})
 	.catch(function(err){
 		console.log("ERROR", err)
@@ -213,6 +226,26 @@ function updateCloudinaryImage(personId, popitInfo){
 
 }
 
+function updateAllPictures(popitInfo){
+
+  var toolkit = PopitToolkit({
+    host: popitInfo.instanceName + ".popit.mysociety.org",
+    Apikey: popitInfo.apikey
+  });
+
+  console.log("loading persons");
+  toolkit.loadAllItems('persons').then(function(persons) {
+    persons.forEach(function(person){
+      updatePersonImage(person, popitInfo);
+    })
+  }, function(err) {
+    console.log('error getting persons', err);
+    reject();
+  });
+
+}
+
 module.exports = {
-	updateCloudinaryImage: updateCloudinaryImage
+	updateCloudinaryImage: updateCloudinaryImage, 
+  updateAllPictures: updateAllPictures
 };
