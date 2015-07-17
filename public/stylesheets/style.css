@@ -16,3 +16,10 @@
 .popitdate .popitdate-input-year{
 	width: 50px;
 }
+
+.form-with-borders{
+	border: solid 1px #ccc;
+	padding: 10px;
+	margin-bottom: 10px;
+	border-radius: 5px;
+}

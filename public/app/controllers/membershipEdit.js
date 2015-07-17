@@ -18,6 +18,10 @@ angular.module('cargoNgApp')
  		// window.__bootstrapData.popitKey
  		var url = "/proxy/memberships/" + item.id;
 
+ 		if($scope.membership.area && !$scope.membership.area.id){
+ 			delete $scope.membership.area
+ 		}
+
  		$http({
  			method: 'PUT',
  			url: url, 
