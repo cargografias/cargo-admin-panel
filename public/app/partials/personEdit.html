@@ -45,13 +45,8 @@
     </div>
 
     <div class="form-group">
-        <label for="">Fecha Nacimiento [birth_date] (dd/MM/yyyy)</label>
-        <p class="input-group">
-            <input type="text" ng-change="birthUpdated()" class="form-control" datepicker-popup="dd/MM/yyyy" ng-model="birthDT" is-open="openedB" datepicker-options="dateOptions" close-text="Close" />
-            <span class="input-group-btn">
-            <button type="button" class="btn btn-default" ng-click="openB($event)"><i class="glyphicon glyphicon-calendar"></i></button>
-          </span>
-        </p>
+        <label for="">Fecha Nacimiento [birth_date] (AAAA-MM-DD)</label>
+        <popit-date selected-date="person.birth_date"></popit-date>
     </div>
 
     <div class="form-group">
@@ -59,15 +54,10 @@
         <input type="text" class="form-control" ng-model="person.birth_place">
     </div>
 
-    <div class="form-group">
-        <label for="">Fecha Deceso [death_date] (dd/MM/yyyy)</label>
-        <p class="input-group">
-            <input type="text" ng-change="deathUpdated()" class="form-control" datepicker-popup="dd/MM/yyyy" ng-model="deathDT" is-open="openedD" datepicker-options="dateOptions" close-text="Close" />
-            <span class="input-group-btn">
-            <button type="button" class="btn btn-default" ng-click="openD($event)"><i class="glyphicon glyphicon-calendar"></i></button>
-          </span>
-        </p>
-    </div>
+	<div class="form-group">
+		<label for="">Fecha Deceso [death_date] (AAAA-MM-DD)</label>
+		<popit-date selected-date="person.death_date"></popit-date>
+	</div>
 
     <div class="form-group">
         <label for="">Otros Nombres [other_names] (un nombre por renglón)</label>

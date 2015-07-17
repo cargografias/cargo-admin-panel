@@ -5,11 +5,6 @@ angular.module('cargoNgApp')
 	$scope.person = {};
 	loadPerson(item.id);
 
-    $scope.dateOptions = {
-        formatYear: 'yy',
-        startingDay: 1
-    };
-
  	$scope.addContact = function(){
  		$scope.person.contact_details = $scope.person.contact_details || []; 
  		$scope.person.contact_details.push({});
@@ -18,36 +13,6 @@ angular.module('cargoNgApp')
  	$scope.removeContact = function(ix){
  		$scope.person.contact_details.splice(ix, 1);
  	}
-
-    $scope.birthUpdated = function() {
-        try {
-            $scope.person.birth_date = $filter('date')($scope.birthDT, 'yyyy-MM-dd')
-        } catch (ex) {
-            $scope.person.birth_date = null;
-        }
-    };
-
-    $scope.deathUpdated = function() {
-        try {
-            $scope.person.death_date = $filter('date')($scope.deathDT, 'yyyy-MM-dd')
-        } catch (ex) {
-            $scope.person.death_date = null;
-        }
-    };
-
-    $scope.openB = function($event) {
-        $event.preventDefault();
-        $event.stopPropagation();
-
-        $scope.openedB = true;
-    };
-
-    $scope.openD = function($event) {
-        $event.preventDefault();
-        $event.stopPropagation();
-
-        $scope.openedD = true;
-    };
 
     $scope.calcName = function() {
         $scope.person.name = ($scope.person.given_name || '') + ' ' + ($scope.person.family_name || '');
@@ -94,22 +59,6 @@ angular.module('cargoNgApp')
 		    if ($scope.person.identifiers && $scope.person.identifiers.length > 0) {
 		        if ($scope.person.identifiers[0].scheme) $scope.idtype = $scope.person.identifiers[0].scheme;
 		        if ($scope.person.identifiers[0].identifier) $scope.idnumber = $scope.person.identifiers[0].identifier;
-		    }
-
-		    if($scope.person.birth_date){
-		    	try{
-		    		$scope.birthDT = moment($scope.person.birth_date, "YYYY-MM-DD").toDate()
-		    	}catch(ex){
-		    		console.log("not valid birth date")	
-		    	}
-		    }
-
-		    if($scope.person.death_date){
-		    	try{
-		    		$scope.deathDT = moment($scope.person.death_date, "YYYY-MM-DD").toDate()
-		    	}catch(ex){
-		    		console.log("not valid death date")	
-		    	}
 		    }
 
 		    if($scope.person.other_names && $scope.person.other_names.length){
