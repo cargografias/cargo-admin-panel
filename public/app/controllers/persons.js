@@ -44,6 +44,32 @@ angular.module('cargoNgApp')
  		}
  	}
 
+ 	$scope.addMembership = function(person){
+
+		var modalInstance = $modal.open({
+	      animation: true, //$scope.animationsEnabled,
+	      templateUrl: '/app/partials/membershipEdit.html',
+	      controller: 'MembershipEditController',
+	      //size: size,
+	      resolve: {
+	        item: function () {
+	          return person.id;
+	        }, 
+	        mode: function (){
+	        	return 'add'
+	        }
+	      }
+	    });
+
+	    modalInstance.result.then(function (selectedItem) {
+	      loadSearch();
+	      //$scope.selected = selectedItem;
+	    }, function () {
+	    	//modal closed
+	    });
+
+ 	}
+
  	$scope.openEdit = function(item){
 
  		//if item -> edit, if not -> add
@@ -82,6 +108,9 @@ angular.module('cargoNgApp')
 	      resolve: {
 	        item: function () {
 	          return membership;
+	        }, 
+	        mode: function (){
+	        	return 'edit'
 	        }
 	      }
 	    });

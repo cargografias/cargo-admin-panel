@@ -1,10 +1,13 @@
 angular.module('cargoNgApp')
 
- .controller('MembershipEditController', function($scope, $modalInstance, $http, item) {
+ .controller('MembershipEditController', function($scope, $modalInstance, $http, item, mode) {
 
- 	$scope.membership = item;
+ 	$scope.mode = mode;
+ 	$scope.membership = "add" == mode ? { person_id: item } : item;
 
- 	loadOrganizationName();
+ 	if('edit'==mode){
+ 		loadOrganizationName();
+ 	}
 
  	function loadOrganizationName(){
 	 	var url = "https://" + window.__bootstrapData.user.popitUrl + ".popit.mysociety.org/api/v0.1/organizations/" + item.organization_id + "?embed="
@@ -16,14 +19,14 @@ angular.module('cargoNgApp')
  	$scope.save = function(){
 
  		// window.__bootstrapData.popitKey
- 		var url = "/proxy/memberships/" + item.id;
+ 		var url = "/proxy/memberships" + ( "edit" == mode ?  ("/" + item.id) : "" ) ;
 
  		if($scope.membership.area && !$scope.membership.area.id){
  			delete $scope.membership.area
  		}
 
  		$http({
- 			method: 'PUT',
+ 			method: "edit" == mode ? 'PUT' : 'POST',
  			url: url, 
  			data: $scope.membership
  		}).success(function(){
