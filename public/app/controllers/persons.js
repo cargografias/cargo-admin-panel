@@ -44,6 +44,25 @@ angular.module('cargoNgApp')
  		}
  	}
 
+ 	$scope.deleteMembership = function(item){
+ 		var message = "DELETE?: \n\n"
+ 		message+= item.label + "\n";
+ 		message+= "ID: " + item.id + "\n";
+ 		if(confirm(message)){
+	 		var url = "/proxy/memberships/" + item.id;
+	 		$http({
+	 			method: 'DELETE',
+	 			url: url
+	 		}).success(function(){
+		 		$scope.doSearch();
+	 		}).error(function(){
+	 			console.log('Error deleting membership', arguments)
+	 			alert('Error deleting membership')
+	 		});
+
+ 		}
+ 	}
+
  	$scope.addMembership = function(person){
 
 		var modalInstance = $modal.open({
