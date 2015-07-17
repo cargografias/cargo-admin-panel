@@ -3,7 +3,13 @@ angular.module('cargoNgApp')
 .controller('PersonEditController', function($scope, $modalInstance, $http, item, $filter) {
 	
 	$scope.person = {};
-	loadPerson(item.id);
+	
+	var mode = $scope.mode = item ? 'edit' : 'add';
+	
+	if("edit" == mode){
+		loadPerson(item.id);
+	}
+		
 
  	$scope.addContact = function(){
  		$scope.person.contact_details = $scope.person.contact_details || []; 
@@ -33,10 +39,12 @@ angular.module('cargoNgApp')
         	personToSave.other_names = $scope.other_names.split('\n').map(function(item){ return { name: item } })
         }
 
-        var url = "/proxy/persons/" + item.id;
+        var url = "/proxy/persons";
+
+        if("edit" == mode) url += "/" + item.id;
 
         $http({
-            method: 'PUT',
+            method: "edit" == mode ? 'PUT' : 'POST',
             url: url,
             data: personToSave,
         }).success(function() {

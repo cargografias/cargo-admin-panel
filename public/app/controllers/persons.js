@@ -19,6 +19,8 @@ angular.module('cargoNgApp')
 
  	$scope.openEdit = function(item){
 
+ 		//if item -> edit, if not -> add
+
 		var modalInstance = $modal.open({
 	      animation: true, //$scope.animationsEnabled,
 	      templateUrl: '/app/partials/personEdit.html',

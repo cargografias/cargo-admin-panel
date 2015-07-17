@@ -439,3 +439,46 @@ module.exports.proxyPUT = function(req, res) {
 
 
 }
+
+module.exports.proxyPOST = function(req, res) {
+  var collection = req.params.collection
+  var id = req.params.id
+  var url = "https://" + req.session.user.popitUrl + ".popit.mysociety.org/api/v0.1/" + collection;
+
+  var options = {
+    url: url,
+    method: 'POST',
+    body: req.body,
+    json: true,
+    headers: {
+      'Apikey': req.session.user.popitApiKey
+    }
+  }
+
+  console.log('object to POST', options)
+
+  request(options, function(err, httpResponse, body) {
+    if (err) {
+      console.log(err)
+      res.send('err');
+    } else {
+
+      console.log('Response', body);
+      res.send('ok')
+
+      if("persons" === collection){
+        var popitInfo = {
+            instanceName: req.session.user.popitUrl, 
+            apikey: req.session.user.popitApiKey
+        };
+
+        popitCloudinaryService.updateCloudinaryImage(body.result.id, popitInfo);
+      }
+
+    }
+  })
+
+
+}
+
+
