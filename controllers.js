@@ -464,7 +464,7 @@ module.exports.proxyPOST = function(req, res) {
     } else {
 
       console.log('Response', body);
-      res.send('ok')
+      res.send({status: 'ok', id: body.result.id})
 
       if("persons" === collection){
         var popitInfo = {

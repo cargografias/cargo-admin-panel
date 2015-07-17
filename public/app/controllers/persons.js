@@ -2,14 +2,18 @@ angular.module('cargoNgApp')
 
  .controller('PersonsController', function($scope, $http, $timeout, $modal) {
 
- 	
+	$scope.search = {}; 	
  	$scope.rows = [];
  	$scope.result = {};
  	$scope.page = 1;
 
  	$scope.doSearch = function(){
  		$scope.page = 1;
- 		loadSearch();
+ 		if($scope.search.id){
+ 			loadById($scope.search.id);
+ 		}else{
+ 			loadSearch();
+ 		}
  	};
 
  	$scope.goToPage = function(page){
@@ -33,8 +37,12 @@ angular.module('cargoNgApp')
 	      }
 	    });
 
-	    modalInstance.result.then(function (selectedItem) {
-	      loadSearch();
+	    modalInstance.result.then(function (newId) {
+	      if(newId){
+	      	$scope.search.id = newId;
+	      	$scope.search.name = "";
+	      }
+	      $scope.doSearch();
 	      //$scope.selected = selectedItem;
 	    }, function () {
 	    	//modal closed
@@ -61,6 +69,27 @@ angular.module('cargoNgApp')
 	    }, function () {
 	    	//modal closed
 	    });
+ 	}
+
+ 	function loadById(personId){
+
+ 		var url = "https://" + window.__bootstrapData.user.popitUrl + ".popit.mysociety.org/api/v0.1/persons/" + personId
+
+ 		$http.get(url).
+		  success(function(data, status, headers, config) {
+
+		    $scope.rows = [data.result];
+
+		    $scope.total = 1
+		    $scope.from = 1
+		    $scope.to = 1
+		    $scope.totalPages = 1;
+		    $scope.pages = [1];
+
+		  }).
+		  error(function(data, status, headers, config) {
+		    console.log("Error getting person")
+		  }); 	
  	}
 
  	function loadSearch(){
