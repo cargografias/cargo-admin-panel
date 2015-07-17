@@ -484,7 +484,7 @@ module.exports.proxyPOST = function(req, res) {
 module.exports.proxyDELETE = function(req, res) {
   var collection = req.params.collection
   var id = req.params.id
-  var url = "https://" + req.session.user.popitUrl + ".popit.mysociety.org/api/v0.1/" + collection;
+  var url = "https://" + req.session.user.popitUrl + ".popit.mysociety.org/api/v0.1/" + collection + "/" + id;
 
   var options = {
     url: url,
