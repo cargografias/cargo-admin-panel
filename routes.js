@@ -57,6 +57,7 @@ function init(app){
   app.post('/api/customization', controllers.customizationPOST);
 
   app.put('/proxy/:collection/:id', controllers.proxyPUT)
+  app.delete('/proxy/:collection/:id', controllers.proxyDELETE)
   app.post('/proxy/:collection', controllers.proxyPOST)
 
   app.put('/api/instance', controllers.instancePUT)

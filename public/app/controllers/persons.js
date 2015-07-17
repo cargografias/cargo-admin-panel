@@ -7,6 +7,8 @@ angular.module('cargoNgApp')
  	$scope.result = {};
  	$scope.page = 1;
 
+ 	$scope.search.name = "*";
+
  	$scope.doSearch = function(){
  		$scope.page = 1;
  		if($scope.search.id){
@@ -16,10 +18,31 @@ angular.module('cargoNgApp')
  		}
  	};
 
+ 	$scope.doSearch();
+
  	$scope.goToPage = function(page){
  		$scope.page = page;
  		loadSearch();
  	};
+
+ 	$scope.delete = function(item){
+ 		var message = "DELETE?: \n\n"
+ 		message+= item.name + "\n";
+ 		message+= "ID: " + item.id + "\n";
+ 		if(confirm(message)){
+	 		var url = "/proxy/persons/" + item.id;
+	 		$http({
+	 			method: 'DELETE',
+	 			url: url
+	 		}).success(function(){
+		 		$scope.doSearch();
+	 		}).error(function(){
+	 			console.log('Error deleting person', arguments)
+	 			alert('Error deleting person')
+	 		});
+
+ 		}
+ 	}
 
  	$scope.openEdit = function(item){
 

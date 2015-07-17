@@ -70,9 +70,8 @@
                 <div class="person-divider"></div>
                 <div class="col-md-4">
                     <div>
-                        <div class="btn-group">
-                            <button ng-click="openEdit(row)" class="btn btn-block btn-primary btn-xs">Edit</button>
-                        </div>
+                        <button ng-click="openEdit(row)" class="btn btn-primary btn-xs">Edit</button>&nbsp;
+                        <button ng-click="delete(row)" class="btn btn-danger btn-xs">Delete</button>
                     </div>
                     <div class="person-idlink">
                         <a target="_blank" href="https://{{bootstrapData.user.popitUrl}}.popit.mysociety.org/persons/{{row.id}}">POPIT</a>
