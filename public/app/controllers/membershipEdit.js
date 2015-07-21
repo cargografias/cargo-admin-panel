@@ -20,17 +20,27 @@ angular.module('cargoNgApp')
 
  		// window.__bootstrapData.popitKey
  		var url = "/proxy/memberships" + ( "edit" == mode ?  ("/" + item.id) : "" ) ;
-
+ 		
  		if($scope.membership.area && !$scope.membership.area.id){
- 			delete $scope.membership.area
+ 			delete $scope.membership.area;
  		}
 
  		$http({
  			method: "edit" == mode ? 'PUT' : 'POST',
  			url: url, 
  			data: $scope.membership
- 		}).success(function(){
-	 		$modalInstance.close();
+ 		}).success(function(result){
+            if("ok" != result.status){
+                if(result.errors){
+                    alert(result.errors.join('\n'))
+                }else{
+                    console.log("Error saving")
+                    console.log(result);
+                    alert('Error saving')
+                }
+            }else{
+                $modalInstance.close("add" == mode ? result.id : null);
+            }
  		}).error(function(){
  			console.log('Error saving membership', arguments)
  			alert('Error saving membership')

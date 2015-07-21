@@ -135,7 +135,7 @@ angular.module('cargoNgApp')
 	    });
 
 	    modalInstance.result.then(function (selectedItem) {
-	      loadSearch();
+			$scope.doSearch();
 	      //$scope.selected = selectedItem;
 	    }, function () {
 	    	//modal closed

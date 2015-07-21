@@ -401,53 +401,21 @@ module.exports.updatePictures = function(req, res) {
   res.send({message: 'ok'})
 }
 
-module.exports.proxyPUT = function(req, res) {
+module.exports.proxy = function(req, res) {
   var collection = req.params.collection
+  var method = req.method;
   var id = req.params.id
-  var url = "https://" + req.session.user.popitUrl + ".popit.mysociety.org/api/v0.1/" + collection + "/" + id;
-
-  var options = {
-    url: url,
-    method: 'PUT',
-    body: req.body,
-    json: true,
-    headers: {
-      'Apikey': req.session.user.popitApiKey
-    }
-  }
-
-  console.log('object to put', options)
-
-  request(options, function(err, httpResponse, body) {
-    if (err) {
-      console.log(err)
-      res.send('err');
-    } else {
-      console.log(body);
-      res.send('ok')
-
-      if("persons" === collection){
-        var popitInfo = {
-            instanceName: req.session.user.popitUrl, 
-            apikey: req.session.user.popitApiKey
-        };
-        popitCloudinaryService.updateCloudinaryImage(id, popitInfo);
-      }
-
-    }
-  })
-
-
-}
-
-module.exports.proxyPOST = function(req, res) {
-  var collection = req.params.collection
-  var id = req.params.id
+  var updateOrDelete = ['PUT', 'DELETE'].indexOf(method) !== -1
+  var addOrUpdate = ['POST', 'PUT'].indexOf(method) !== -1
   var url = "https://" + req.session.user.popitUrl + ".popit.mysociety.org/api/v0.1/" + collection;
+  
+  if(updateOrDelete){
+    url += "/" + id
+  }
 
   var options = {
     url: url,
-    method: 'POST',
+    method: method,
     body: req.body,
     json: true,
     headers: {
@@ -455,54 +423,44 @@ module.exports.proxyPOST = function(req, res) {
     }
   }
 
-  console.log('object to POST', options)
+  console.log('object to ', method, options)
 
   request(options, function(err, httpResponse, body) {
+
     if (err) {
       console.log(err)
-      res.send('err');
+      res.send({status: 'error', errors: [err]})
     } else {
 
-      console.log('Response', body);
-      res.send({status: 'ok', id: body.result.id})
+      console.log('Response HERE', body);
+      
+      if(body.errors){
+        console.log("HAS ERRORS")
+        res.send({status: 'error', errors: body.errors})
+      }else{
+        
+        console.log("DOES NOT HAVE ERRORS")
+        
+        var resObj = {
+          'status': 'ok'
+        }
+        
+        if(addOrUpdate){
+          resObj.id = body.result.id
+        }
+        
+        res.send(resObj)
 
-      if("persons" === collection){
-        var popitInfo = {
-            instanceName: req.session.user.popitUrl, 
-            apikey: req.session.user.popitApiKey
-        };
+        if(addOrUpdate && "persons" === collection){
+          var popitInfo = {
+              instanceName: req.session.user.popitUrl, 
+              apikey: req.session.user.popitApiKey
+          };
+          popitCloudinaryService.updateCloudinaryImage(body.result.id, popitInfo);
+        }
 
-        popitCloudinaryService.updateCloudinaryImage(body.result.id, popitInfo);
       }
 
-    }
-  })
-
-
-}
-
-module.exports.proxyDELETE = function(req, res) {
-  var collection = req.params.collection
-  var id = req.params.id
-  var url = "https://" + req.session.user.popitUrl + ".popit.mysociety.org/api/v0.1/" + collection + "/" + id;
-
-  var options = {
-    url: url,
-    method: 'DELETE',
-    headers: {
-      'Apikey': req.session.user.popitApiKey
-    }
-  }
-
-  console.log('object to DELETE', options)
-
-  request(options, function(err, httpResponse, body) {
-    if (err) {
-      console.log(err)
-      res.send('err');
-    } else {
-      console.log('Response', body);
-      res.send({status: 'ok'})
 
     }
   })

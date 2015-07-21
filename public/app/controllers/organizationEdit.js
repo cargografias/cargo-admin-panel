@@ -27,7 +27,17 @@ angular.module('cargoNgApp')
  			url: url, 
  			data: itemToSave, 
  		}).success(function(result){
-            $modalInstance.close("add" == mode ? result.id : null);
+            if("ok" != result.status){
+                if(result.errors){
+                    alert(result.errors.join('\n'))
+                }else{
+                    console.log("Error saving organization")
+                    console.log(result);
+                    alert('Error saving organization')
+                }
+            }else{
+                $modalInstance.close("add" == mode ? result.id : null);
+            }
  		}).error(function(){
  			console.log('Error saving organization', arguments)
  			alert('Error saving organization')

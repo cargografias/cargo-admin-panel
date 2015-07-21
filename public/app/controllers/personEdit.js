@@ -21,6 +21,8 @@ angular.module('cargoNgApp')
 
     $scope.calcName = function() {
         $scope.person.name = ($scope.person.given_name || '') + ' ' + ($scope.person.family_name || '');
+        $scope.person.name = $scope.person.name.trim();
+        if(!$scope.person.name) delete $scope.person.name;
     };
 
     $scope.save = function() {
@@ -47,7 +49,17 @@ angular.module('cargoNgApp')
             url: url,
             data: personToSave,
         }).success(function(result) {
-            $modalInstance.close("add" == mode ? result.id : null);
+            if("ok" != result.status){
+                if(result.errors){
+                    alert(result.errors.join('\n'))
+                }else{
+                    console.log("Error saving organization")
+                    console.log(result);
+                    alert('Error saving organization')
+                }
+            }else{
+                $modalInstance.close("add" == mode ? result.id : null);
+            }
         }).error(function() {
             console.log('Error saving person', arguments)
             alert('Error saving person')
