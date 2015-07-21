@@ -23,3 +23,16 @@
 	margin-bottom: 10px;
 	border-radius: 5px;
 }
+
+.organizations h2{
+	margin: 0;
+}
+
+.organizations .row-person-item{
+	background: #ccc;
+	margin-bottom: 5px;
+}
+
+.organization .box-body{
+	background: silver;
+}
