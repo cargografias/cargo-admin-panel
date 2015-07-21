@@ -48,7 +48,6 @@ angular.module('cargoNgApp')
             url: url,
             data: personToSave,
         }).success(function(result) {
-        	console.log(result)
             $modalInstance.close("add" == mode ? result.id : null);
         }).error(function() {
             console.log('Error saving person', arguments)

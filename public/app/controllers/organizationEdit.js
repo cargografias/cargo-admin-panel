@@ -2,36 +2,41 @@ angular.module('cargoNgApp')
 
  .controller('OrganizationEditController', function($scope, $modalInstance, $http, item) {
 
- 	$scope.organization = {};
+ 	$scope.item = {};
+    var mode = $scope.mode = item ? 'edit' : 'add';
 
- 	$scope.organization.name = item.name;
- 	console.log('this is the received organization', item);
+    if("edit" == mode){
+        loadItem(item.id);
+    }
 
  	$scope.save = function(){
 
- 		var organizationToSave = {
- 			name: $scope.organization.name, 
- 		}
+        var itemToSave = angular.extend({}, $scope.item);
 
- 		var url = "/proxy/organizations/" + item.id;
+ 		var url = "/proxy/organizations" +  ( 'edit' == mode   ? ( "/" + item.id) : '' ) ;
  		
  		$http({
- 			method: 'PUT',
+ 			method: 'edit' == mode ? 'PUT' : 'POST',
  			url: url, 
- 			data: organizationToSave, 
- 		}).success(function(){
-	 		$modalInstance.close();
+ 			data: itemToSave, 
+ 		}).success(function(result){
+            $modalInstance.close("add" == mode ? result.id : null);
  		}).error(function(){
  			console.log('Error saving organization', arguments)
  			alert('Error saving organization')
  		});
 	
-
  	};
 
  	$scope.cancel = function(){
  		$modalInstance.close();
  	};
 
- });
+    function loadItem(itemId){
+        var url = "https://" + window.__bootstrapData.user.popitUrl + ".popit.mysociety.org/api/v0.1/organizations/" + itemId + "?embed="
+        $http.get(url).then(function(response){
+            $scope.item = response.data.result;
+        })
+    }
 
+ });
