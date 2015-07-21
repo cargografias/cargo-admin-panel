@@ -7,7 +7,6 @@ angular.module('cargoNgApp')
 
     if("edit" == mode){
         loadItem(item.id);
-        loadOrganizationName();
     }
 
     function loadOrganizationName(){
@@ -44,6 +43,7 @@ angular.module('cargoNgApp')
         var url = "https://" + window.__bootstrapData.user.popitUrl + ".popit.mysociety.org/api/v0.1/organizations/" + itemId + "?embed="
         $http.get(url).then(function(response){
             $scope.item = response.data.result;
+            loadOrganizationName();
         })
     }
 

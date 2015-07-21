@@ -46,10 +46,9 @@ angular.module('cargoNgApp')
 	      if(newId){
 	      	$scope.search.id = newId;
 	      	$scope.search.name = "";
-	      	$scope.doSearch();
-	      }else{
-	      	loadSearch();
 	      }
+
+	      $scope.doSearch();
 
 	    }, function () {
 	    	//modal closed
