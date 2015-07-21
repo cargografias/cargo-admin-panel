@@ -7,6 +7,14 @@ angular.module('cargoNgApp')
 
     if("edit" == mode){
         loadItem(item.id);
+        loadOrganizationName();
+    }
+
+    function loadOrganizationName(){
+        var url = "https://" + window.__bootstrapData.user.popitUrl + ".popit.mysociety.org/api/v0.1/organizations/" + item.parent_id + "?embed="
+        $http.get(url).then(function(response){
+            $scope.organization_name = response.data.result.name
+        })
     }
 
  	$scope.save = function(){
@@ -38,5 +46,42 @@ angular.module('cargoNgApp')
             $scope.item = response.data.result;
         })
     }
+
+    $scope.removeName = function(ix){
+        $scope.item.other_names.splice(ix, 1);
+    };
+
+    $scope.addName = function(){
+        $scope.item.other_names = $scope.item.other_names || [];
+        $scope.item.other_names.push({});
+    }
+
+    $scope.addContact = function(){
+        $scope.item.contact_details = $scope.item.contact_details || []; 
+        $scope.item.contact_details.push({});
+    };
+
+    $scope.removeContact = function(ix){
+        $scope.item.contact_details.splice(ix, 1);
+    }
+
+    $scope.getOrganizations = function(val) {
+        return $http.get('https://' + window.__bootstrapData.user.popitUrl + '.popit.mysociety.org/api/v0.1/search/organizations', {
+          params: {
+            q: "name:" + val + "*",
+            embed: ""
+          }
+        }).then(function(response){
+          return response.data.result.map(function(item){
+            return {id: item.id, name: item.name};
+          });
+        });
+      };
+
+    $scope.selectOrganization = function($item, $model, $label){
+        $scope.item.parent_id = $model.id;
+        $scope.organization_name = $model.name;
+        $scope.orgSearch = false;
+    };
 
  });

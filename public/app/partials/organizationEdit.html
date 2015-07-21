@@ -1,13 +1,90 @@
 <div class="modal-header">
-    <h3 class="modal-title">Edit Organization</h3>
+    <h3 class="modal-title" ng-show="'edit'==mode">Edit Organization</h3>
+    <h3 class="modal-title" ng-show="'add'==mode">Add Organization</h3>
 </div>
 
 <div class="modal-body">
 
     <div class="form-group">
-        <label for="">Name</label>
+        <label for="">Nombre Resumido [name]</label>
         <input type="text" class="form-control" id="" ng-model="item.name">
     </div>
+
+    <div class="form-group">
+        <label for="">Dependencia directa [parent organization]</label>
+        <a ng-hide="orgSearch" ng-click="orgSearch = true">Change</a>
+        <a ng-show="orgSearch" ng-click="orgSearch = false">Cancel</a>
+        <div ng-hide="orgSearch">ID: {{item.parent_id}}</div>
+        <div ng-hide="orgSearch">Name: {{organization_name}} </div>
+        <input ng-show="orgSearch" type="text" ng-model="organization" typeahead="item as item.name for item in getOrganizations($viewValue)" typeahead-on-select="selectOrganization($item, $model, $label)" class="form-control">
+    </div>
+
+    <div class="form-group">
+        <label for="">Descripcion [one-line description]</label>
+        <input type="text" class="form-control" id="" ng-model="item.description">
+    </div>
+
+    <div class="form-group">
+        <label for="">Fecha de inicio [founding_date]</label>
+        <popit-date selected-date="item.founding_date"></popit-date>
+    </div>
+
+    <div class="form-group">
+        <label for="">Fecha de fin [dissolution_date]</label>
+        <popit-date selected-date="item.dissolution_date"></popit-date>
+    </div>
+
+    <div class="form-group">
+        <label for="">Tipo de organizacion [classification]</label>
+        <input type="text" class="form-control" id="" ng-model="item.classification">
+    </div>
+
+    <h4>Area</h4>
+    <div class="form-horizontal form-with-borders">
+        <div class="form-group">
+            <label class="col-sm-2 control-label">ID</label>
+            <div class="col-sm-10">
+                <input class="form-control" ng-model="item.area.id">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">Name</label>
+            <div class="col-sm-10">
+                <input class="form-control" ng-model="item.area.name">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">Identifier</label>
+            <div class="col-sm-10">
+                <input class="form-control" ng-model="item.area.identifier">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">Classification</label>
+            <div class="col-sm-10">
+                <input class="form-control" ng-model="item.area.classification">
+            </div>
+        </div>
+    </div>
+
+    <h4>Nombres Alternativos [other_names]</h4>
+    <div class="form-horizontal" ng-repeat="name in item.other_names">
+        <div class="form-group">
+            <label class="col-sm-2 control-label">Name</label>
+            <div class="col-sm-10">
+                <input class="form-control" ng-model="name.name">
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-10">
+                <a ng-click="removeName($index)">Eliminar</a>
+            </div>
+        </div>
+    </div>
+    <div>
+        <a ng-click="addName()">Agregar nombre alternativo</a>
+    </div>
+
 
 </div>
 

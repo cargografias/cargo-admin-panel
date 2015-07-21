@@ -62,4 +62,3 @@ angular.module('cargoNgApp')
 	  };
 
  });
-

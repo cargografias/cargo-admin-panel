@@ -9,7 +9,6 @@ angular.module('cargoNgApp')
 	if("edit" == mode){
 		loadPerson(item.id);
 	}
-		
 
  	$scope.addContact = function(){
  		$scope.person.contact_details = $scope.person.contact_details || []; 
