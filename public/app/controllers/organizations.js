@@ -57,6 +57,25 @@ angular.module('cargoNgApp')
 
  	};
 
+ 	$scope.delete = function(item){
+ 		var message = "DELETE?: \n\n"
+ 		message+= item.name + "\n";
+ 		message+= "ID: " + item.id + "\n";
+ 		if(confirm(message)){
+	 		var url = "/proxy/organizations/" + item.id;
+	 		$http({
+	 			method: 'DELETE',
+	 			url: url
+	 		}).success(function(){
+		 		$scope.doSearch();
+	 		}).error(function(){
+	 			console.log('Error deleting organization', arguments)
+	 			alert('Error deleting organization')
+	 		});
+
+ 		}
+ 	}
+
  	function loadById(itemId){
 
  		var url = "https://" + window.__bootstrapData.user.popitUrl + ".popit.mysociety.org/api/v0.1/organizations/" + itemId
