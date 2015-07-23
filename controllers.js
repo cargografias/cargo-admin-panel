@@ -145,6 +145,7 @@ module.exports.instancePUT = function(req, res) {
     popitUrl: req.body.popitUrl,
     popitApiKey: req.body.popitApiKey,
     email: req.body.email,
+    spreadsheetUrl: req.body.spreadsheetUrl || '',
   }
 
   if(req.session.user.username!='admin'){
@@ -155,6 +156,7 @@ module.exports.instancePUT = function(req, res) {
     _id: new ObjectId(req.session.user._id)
   }, upd, function(err) {
     if (err) {
+      console.log(err);
       res.status(500).send({
         status: 'error',
         message: 'error updating instance'
@@ -256,7 +258,6 @@ module.exports.loginPost = function(req, res) {
   usersService.validateUser(req.body.username, req.body.password)
     .then(function(user) {
       req.session.user = user;
-      console.log("THS USER", user)
       res.redirect('/')
     })
     .catch(function() {
@@ -323,7 +324,7 @@ module.exports.home = function(req, res) {
 
 module.exports.myinfo = function(req, res) {
 
-  var returnedProperties = 'instanceName popitUrl email popitApiKey';
+  var returnedProperties = 'instanceName popitUrl email popitApiKey spreadsheetUrl';
 
   db.CargoInstance.find({
       _id: new ObjectId(req.session.user._id)

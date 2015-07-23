@@ -5,7 +5,7 @@ var db = require('../db')
 //These are the properties that will be available in session for the user.
 //This will be sent to mongo to filter the returned parameters
 //In addition, the _id will also be present
-var sessionUserProperties = 'username email emailHash isAdmin instanceName popitUrl popitApiKey'; 
+var sessionUserProperties = 'username email emailHash isAdmin instanceName popitUrl popitApiKey spreadsheetUrl'; 
 
 module.exports.validateUser = function (username, password) {
 

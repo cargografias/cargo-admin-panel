@@ -33,13 +33,11 @@ var sessionOptions = {
 //   sessionOptions.proxy = true;
 // }
 
-// if (app.get('env') === 'development') {
-//     //Here configure session to disk
-//     var FileStore = require('session-file-store')(session);
-//     sessionOptions.store = new FileStore({})
-// } else if( app.get('env') === 'production'){
-// }
-
+if(process.env.USE_FILE_SESSIONS){
+  console.log("Using session-file-store")
+  var FileStore = require('session-file-store')(session);
+  sessionOptions.store = new FileStore({})
+}
 
 if(process.env.DO_NOT_USE_REDIS_FOR_SESSIONS !== 'true'){
   console.log('using redis for sessions')
