@@ -21,6 +21,7 @@ module.exports.CargoInstance = mongoose.model('CargoInstances', {
 	username: String, 
 	email: String, 
 	emailHash: String, 
+	lastUpdate: Number, 
 	isAdmin: Boolean,
 	password: String, 
 	customization: mongoose.Schema.Types.Mixed,

@@ -28,6 +28,10 @@ function updateInstance(instanceName) {
       if (cargoInstance) {
         addToBuildQueue(cargoInstance);
         deferred.resolve(cargoInstance);
+        cargoInstance.lastUpdate = Date.now();
+        cargoInstance.save(function(err){
+          console.log('Updated last update', cargoInstance.lastUpdate, 'Error:', err)
+        })
       } else {
 
         var message = 'instance not found' + instanceName
