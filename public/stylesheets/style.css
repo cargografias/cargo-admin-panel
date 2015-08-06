@@ -36,3 +36,10 @@
 .organization .box-body{
 	background: silver;
 }
+
+.person-divider{
+    border-top: solid 1px #999;
+    margin-bottom: 15px;
+    margin-left: 15px;
+    margin-right: 15px;
+}
