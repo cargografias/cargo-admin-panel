@@ -9,6 +9,15 @@ angular.module('cargoNgApp')
  		loadOrganizationName();
  	}
 
+ 	$scope.addSource = function(){
+ 		$scope.membership.sources = $scope.membership.sources || []; 
+ 		$scope.membership.sources.push({});
+ 	};
+
+ 	$scope.removeSource = function(ix){
+ 		$scope.membership.sources.splice(ix, 1);
+ 	}
+
  	function loadOrganizationName(){
 	 	var url = "https://" + window.__bootstrapData.user.popitUrl + ".popit.mysociety.org/api/v0.1/organizations/" + item.organization_id + "?embed="
 	 	$http.get(url).then(function(response){
