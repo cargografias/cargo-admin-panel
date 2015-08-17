@@ -253,7 +253,7 @@ module.exports.login = function(req, res) {
 
 module.exports.loginPost = function(req, res) {
 
-  var theIP = req.body.username, req.headers['x-forwarded-for'] || req.headers['x-real-ip'] || req.headers['host'];
+  var theIP = req.headers['x-forwarded-for'] || req.headers['x-real-ip'] || req.headers['host'];
 
   usersService.validateUser(req.body.username, req.body.password)
     .then(function(user) {
@@ -262,7 +262,7 @@ module.exports.loginPost = function(req, res) {
       res.redirect('/')
     })
     .catch(function() {
-      console.log("INVALID LOGIN ATTEMPT", theIP, req.body.username )
+      console.log("INVALID LOGIN ATTEMPT", theIP, req.body.username)
       res.render('login', {
         error: 'Wrong username or password'
       })
