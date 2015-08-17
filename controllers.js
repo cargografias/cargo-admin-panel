@@ -260,7 +260,7 @@ module.exports.loginPost = function(req, res) {
       res.redirect('/')
     })
     .catch(function() {
-      console.log("INVALID LOGIN ATTEMPT", req.body.username, req.headers)
+      console.log("INVALID LOGIN ATTEMPT", req.body.username, req.headers['x-forwarded-for'] || req.headers['x-real-ip'] || req.headers['host'], req.body.username )
       res.render('login', {
         error: 'Wrong username or password'
       })
