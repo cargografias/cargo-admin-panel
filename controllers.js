@@ -256,10 +256,11 @@ module.exports.loginPost = function(req, res) {
   usersService.validateUser(req.body.username, req.body.password)
     .then(function(user) {
       req.session.user = user;
-      console.log("THS USER", user)
+      console.log("USER LOGGED IN", user)
       res.redirect('/')
     })
     .catch(function() {
+      console.log("INVALID LOGIN ATTEMPT", req.body.username, req.headers)
       res.render('login', {
         error: 'Wrong username or password'
       })
