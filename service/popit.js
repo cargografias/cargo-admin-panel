@@ -118,7 +118,7 @@ function processInstance(instance) {
   var persons, organizations, posts, memberships;
 
   toolkit = Toolkit({
-    host: instance.popitUrl + ".popit.mysociety.org"
+    host: instance.popitUrl + ""
   });
 
   instance.progressLog = [];

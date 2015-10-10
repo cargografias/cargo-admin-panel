@@ -72,7 +72,7 @@ angular.module('cargoNgApp')
     };
 
  	function loadPerson(personId){
-	 	var url = "https://" + window.__bootstrapData.user.popitUrl + ".popit.mysociety.org/api/v0.1/persons/" + personId + "?embed="
+	 	var url = "https://" + window.__bootstrapData.user.popitUrl + "/api/v0.1/persons/" + personId + "?embed="
 	 	$http.get(url).then(function(response){
 	 		$scope.person = response.data.result;
 		    if ($scope.person.identifiers && $scope.person.identifiers.length > 0) {

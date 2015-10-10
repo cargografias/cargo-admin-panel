@@ -66,7 +66,7 @@ module.exports.create = function(req, res) {
           //
           //Query code to popit:
 
-          var url = "http://" + popitUrl + ".popit.mysociety.org/api/v0.1";
+          var url = "http://" + popitUrl + "/api/v0.1";
           console.log("querying url", url)
           request(url, function(err, response, body) {
 
@@ -407,7 +407,7 @@ module.exports.proxy = function(req, res) {
   var id = req.params.id
   var updateOrDelete = ['PUT', 'DELETE'].indexOf(method) !== -1
   var addOrUpdate = ['POST', 'PUT'].indexOf(method) !== -1
-  var url = "https://" + req.session.user.popitUrl + ".popit.mysociety.org/api/v0.1/" + collection;
+  var url = "https://" + req.session.user.popitUrl + "/api/v0.1/" + collection;
   
   if(updateOrDelete){
     url += "/" + id

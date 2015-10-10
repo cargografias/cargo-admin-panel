@@ -144,7 +144,7 @@ angular.module('cargoNgApp')
 
  	function loadById(personId){
 
- 		var url = "https://" + window.__bootstrapData.user.popitUrl + ".popit.mysociety.org/api/v0.1/persons/" + personId
+ 		var url = "https://" + window.__bootstrapData.user.popitUrl + "/api/v0.1/persons/" + personId
 
  		$http.get(url).
 		  success(function(data, status, headers, config) {
@@ -165,7 +165,7 @@ angular.module('cargoNgApp')
 
  	function loadSearch(){
 
- 		var url = "https://" + window.__bootstrapData.user.popitUrl + ".popit.mysociety.org/api/v0.1/search/persons?"
+ 		var url = "https://" + window.__bootstrapData.user.popitUrl + "/api/v0.1/search/persons?"
  		url += "page=" + $scope.page;
  		url += "&q=name:" + $scope.search.name;
 
