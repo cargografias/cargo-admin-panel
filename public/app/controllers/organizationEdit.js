@@ -10,7 +10,7 @@ angular.module('cargoNgApp')
     }
 
     function loadOrganizationName(){
-        var url = "https://" + window.__bootstrapData.user.popitUrl + ".popit.mysociety.org/api/v0.1/organizations/" + item.parent_id + "?embed="
+        var url = "https://" + window.__bootstrapData.user.popitUrl + "/api/v0.1/organizations/" + item.parent_id + "?embed="
         $http.get(url).then(function(response){
             $scope.organization_name = response.data.result.name
         })
@@ -50,7 +50,7 @@ angular.module('cargoNgApp')
  	};
 
     function loadItem(itemId){
-        var url = "https://" + window.__bootstrapData.user.popitUrl + ".popit.mysociety.org/api/v0.1/organizations/" + itemId + "?embed="
+        var url = "https://" + window.__bootstrapData.user.popitUrl + "/api/v0.1/organizations/" + itemId + "?embed="
         $http.get(url).then(function(response){
             $scope.item = response.data.result;
             loadOrganizationName();
@@ -76,7 +76,7 @@ angular.module('cargoNgApp')
     }
 
     $scope.getOrganizations = function(val) {
-        return $http.get('https://' + window.__bootstrapData.user.popitUrl + '.popit.mysociety.org/api/v0.1/search/organizations', {
+        return $http.get('https://' + window.__bootstrapData.user.popitUrl + '/api/v0.1/search/organizations', {
           params: {
             q: "name:" + val + "*",
             embed: ""

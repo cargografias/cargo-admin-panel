@@ -136,7 +136,7 @@ function updatePerson(person, popitInfo) {
 
   return Q.promise(function(resolve, reject, notify) {
 
-    var url = "https://" + popitInfo.instanceName + ".popit.mysociety.org/api/v0.1/persons/" + person.id;
+    var url = "https://" + popitInfo.instanceName + "/api/v0.1/persons/" + person.id;
     var dateRE = /^[0-9]{4}(-[0-9]{2}){0,2}$/;
 
     if (typeof person.birth_date !== 'undefined' && !dateRE.test(person.birth_date)) {
@@ -172,7 +172,7 @@ function updatePerson(person, popitInfo) {
 function getPersonFromPopit(personId, popitInfo) {
   return Q.promise(function(resolve, reject, notify) {
 
-    var url = "https://" + popitInfo.instanceName + ".popit.mysociety.org/api/v0.1/persons/" + personId + "?embed=";
+    var url = "https://" + popitInfo.instanceName + "/api/v0.1/persons/" + personId + "?embed=";
 
     var options = {
       url: url,
@@ -229,7 +229,7 @@ function updateCloudinaryImage(personId, popitInfo) {
 function updateAllPictures(popitInfo) {
 
   var toolkit = PopitToolkit({
-    host: popitInfo.instanceName + ".popit.mysociety.org",
+    host: popitInfo.instanceName + "",
     Apikey: popitInfo.apikey
   });
 
