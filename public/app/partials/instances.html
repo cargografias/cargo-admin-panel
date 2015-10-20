@@ -45,6 +45,7 @@
                                 <td>{{item.email}}</td>
                                 <th ng-show="$root.bootstrapData.user.username == 'admin'">
                                     <input type="button" ng-click="impersonate(item.username)" value="Log In" />
+                                    <input type="button" ng-click="deleteInstance(item._id, item.instanceName)" value="Delete" />
                                     </td>
                             </tr>
                         </tbody>

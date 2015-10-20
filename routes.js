@@ -47,7 +47,8 @@ function init(app){
 	app.post('/api/updatemyinstance', controllers.updateMyInstance)
 	app.get('/api/mycurrentbuildstatus', controllers.myCurrentBuildStatus)
 
-	app.post('/api/create', checkAdmin, controllers.create)
+  app.post('/api/create', checkAdmin, controllers.create)
+	app.delete('/api/instances/:id', checkAdmin, controllers.deleteInstance)
 	app.get('/api/instances', checkAdmin, controllers.instances)
 
   app.post('/api/impersonate', checkAdmin, canImpersonate, controllers.impersonate)

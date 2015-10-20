@@ -10,6 +10,18 @@ var popitCloudinaryService = require("./service/popitCloudinary.js");
 
 module.exports = {};
 
+module.exports.deleteInstance = function(req, res){
+  var id = req.params.id;
+  db.CargoInstance.remove({_id: id}, function(err, result){
+    if(err){
+      console.log('error removing id', id, result);
+      res.send('error removing')
+    }else{
+      res.send('ok')  
+    }
+  })
+}
+
 module.exports.create = function(req, res) {
 
   var instanceName = req.body.instanceName;
