@@ -47,7 +47,7 @@ $ node createAdminUser.js
 * Inicia el servidor nodejs utilizando el comando
 
 ```bash
-$  node server.js 
+$  node app.js 
 ```
 
 * Abri tu navegador en 'http://localhost:3003' y navega.
