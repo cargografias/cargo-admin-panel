@@ -22,6 +22,7 @@
                     <ul class="nav nav-tabs">
                         <li ng-class="{active: selectedTab == 'general'}"><a ng-click="selectTab('general')" data-toggle="tab">General</a></li>
                         <li ng-class="{active: selectedTab == 'predefined'}"><a ng-click="selectTab('predefined')" data-toggle="tab">Predefined Search</a></li>
+                        <li ng-class="{active: selectedTab == 'placeholders'}"><a ng-click="selectTab('placeholders')" data-toggle="tab">Place Holder Images</a></li>
                         <li ng-class="{active: selectedTab == 'social'}"><a ng-click="selectTab('social')" data-toggle="tab">Social</a></li>
                         <li ng-class="{active: selectedTab == 'footer'}"><a ng-click="selectTab('footer')" data-toggle="tab">Footer</a></li>
                         <li ng-class="{active: selectedTab == 'meta'}"><a ng-click="selectTab('meta')" data-toggle="tab">Meta</a></li>
@@ -338,7 +339,32 @@
                             <div ui-ace="{  mode: 'json' }" ng-model="customization.predefinedSearches"></div>
                         </div>
                     </div>
-
+                       <div class="box-body" ng-show="selectedTab == 'placeholders'">
+                        <div class="form-group placeholders">
+                            <label ng-show="fixAce">Place Holder Images</label>
+                            <div class="form-group">
+                                <p class="help-block">Territory</p>
+                                <img ng-src="{{customization.territoryPlaceholder}}">
+                                <input type="text" class="form-control" ng-model="
+                                customization.territoryPlaceholder">
+                                
+                            </div>
+                            <div class="form-group">
+                                <p class="help-block">Politicians</p>
+                                <img ng-src="{{customization.politicianPlaceholder}}">
+                                <input type="text" class="form-control" ng-model="customization.politicianPlaceholder">
+                                
+                            </div>
+                            <div class="form-group">
+                                <p class="help-block">Memberships</p>
+                                <img ng-src="{{customization.membershipPlaceHolder}}">
+                                <input type="text" class="form-control" ng-model="customization.membershipPlaceHolder">
+                                
+                            </div>
+                             
+                            
+                        </div>
+                    </div>
                     <div class='box-body' ng-show="selectedTab == 'social'">
                         <div class="form-group">
                             <label ng-show="fixAce">Error Button</label>
