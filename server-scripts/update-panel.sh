@@ -1,4 +1,4 @@
-ssh admin@104.131.56.5 "
+ssh cargoadmin@104.131.103.212 "
     cd /opt/panel
     pm2 stop panel
     git pull
