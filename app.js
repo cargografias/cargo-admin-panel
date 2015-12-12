@@ -7,7 +7,12 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var session = require('express-session');
+var MongoStore = require('connect-mongo')(session);
 var app = express();
+
+if(!process.env.MONGO_DB_URL){
+  throw "Missing process.env.MONGO_DB_URL";
+}
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -24,44 +29,11 @@ var sessionOptions = {
   secret: process.env.COOKIE_SECRET,
   resave: false, 
   saveUninitialized: false,
-  cookie: {}
-};
-
-// if (app.get('env') === 'production') {
-//   app.set('trust proxy', 1) // trust first proxy
-//   sessionOptions.cookie.secure = true // serve secure cookies
-//   sessionOptions.proxy = true;
-// }
-
-// if (app.get('env') === 'development') {
-//     //Here configure session to disk
-//     var FileStore = require('session-file-store')(session);
-//     sessionOptions.store = new FileStore({})
-// } else if( app.get('env') === 'production'){
-// }
-
-
-if(process.env.DO_NOT_USE_REDIS_FOR_SESSIONS !== 'true'){
-  console.log('using redis for sessions')
-  var redis = require('redis');
-  var redisClient = redis.createClient(process.env.REDIS_PORT, process.env.REDIS_HOST); // replace with your config
-
-  redisClient.on('connect', function(){
-    console.log('Connected to Redis: ' + process.env.REDIS_PORT + ":" + process.env.REDIS_HOST);
-  });
-
-  redisClient.on('error', function(err) {
-       console.log('Redis error: ' + err);
-  }); 
-
-  var RedisStore = require('connect-redis')(session);
-  sessionOptions.store = new RedisStore({
-    client: redisClient
+  cookie: {}, 
+  store: new MongoStore({
+    url: process.env.MONGO_DB_URL,
   })
-
-}else{
-  console.log('not using redis for sessions')
-}
+};
 
 app.use(session(sessionOptions));
 
