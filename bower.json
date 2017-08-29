@@ -7,7 +7,7 @@
     "**/.*",
     "node_modules",
     "bower_components",
-    "/public/javascripts/bower",
+    "public/javascripts/bower",
     "test",
     "tests"
   ],
@@ -18,5 +18,8 @@
     "angular-ui-ace": "bower",
     "angular-bootstrap": "~0.13.0",
     "moment": "~2.10.3"
+  },
+  "resolutions": {
+    "angular": "~1.x"
   }
 }

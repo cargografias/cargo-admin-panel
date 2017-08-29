@@ -4,9 +4,7 @@ var mongoose = require('mongoose');
 
 require('dotenv').load();
 
-if(!process.env.MONGO_DB_URL){
-	throw "Missing process.env.MONGO_DB_URL";
-}
+process.env.MONGO_DB_URL = 'mongodb://localhost/cargo';
 
 mongoose.connect(process.env.MONGO_DB_URL, {}, function(){
 	console.log('connected to mongo');
