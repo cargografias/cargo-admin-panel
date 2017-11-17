@@ -82,16 +82,8 @@ module.exports.create = function(req, res) {
           console.log("querying url", url)
           request(url, function(err, response, body) {
 
-            if (err) {
-              console.log("error validating popit instance", err)
-              res.send({
-                status: "error",
-                message: "Error validating popit instance"
-              })
-            } else {
-              if (response.statusCode == 200) {
-
-                var ci = new db.CargoInstance({
+            
+             var ci = new db.CargoInstance({
                   instanceName: instanceName,
                   username: username,
                   email: email,
@@ -113,15 +105,8 @@ module.exports.create = function(req, res) {
                       message: "Instance created"
                     });
                   }
-                })
+                });
 
-              } else {
-                res.send({
-                  status: "error",
-                  message: "Popit instance not found"
-                })
-              }
-            }
 
 
           })
