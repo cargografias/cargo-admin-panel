@@ -36,13 +36,17 @@ $ npm install
 $ bower install
 ```
 
+Nota: Si bower da un error relacionado con /public, se puede superar el problema creando un link simbólico desde /public/javascripts a cargo-admin-panel/public/javascirpts
+
+* Crea un archivo .env en tu root, Podes utilizar (env.example)[https://github.com/cargografias/cargo-admin-panel/blob/master/env.example] como guia.
+
+
+
 * Crea el usuario default en la base con 
 
 ```bash
 $ node createAdminUser.js
 ```
-* Crea un archivo .env en tu root, Podes utilizar .env.example como guia.
-
 
 * Inicia el servidor nodejs utilizando el comando
 
