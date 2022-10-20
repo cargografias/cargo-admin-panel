@@ -19,7 +19,7 @@
     "ejs": "~2.2.3",
     "express": "~4.11.1",
     "express-session": "^1.11.2",
-    "mongoose": "^4.2.9",
+    "mongoose": "^4.13.21",
     "morgan": "~1.5.1",
     "popit-toolkit": "0.0.4",
     "q": "^1.1.2",
